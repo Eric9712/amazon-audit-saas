@@ -86,12 +86,34 @@ ANYMAIL = {
 # CACHING (Redis in production)
 # =============================================================================
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': env('REDIS_URL', default='redis://localhost:6379/1'),  # noqa: F405
+# =============================================================================
+# CACHING & ASYNC TASKS
+# =============================================================================
+
+REDIS_URL = os.environ.get('REDIS_URL')
+
+if REDIS_URL:
+    # Use Redis if available
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': REDIS_URL,
+        }
     }
-}
+    CELERY_BROKER_URL = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
+else:
+    # Fallback to Local Memory (No Redis required)
+    print("WARNING: No REDIS_URL found. Using Local Memory Cache & Synchronous Tasks.")
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'unique-snowflake',
+        }
+    }
+    # Run tasks immediately (Synchronous)
+    CELERY_TASK_ALWAYS_EAGER = True
+    CELERY_BROKER_URL = 'memory://'
 
 # =============================================================================
 # SENTRY ERROR MONITORING
@@ -100,13 +122,16 @@ CACHES = {
 SENTRY_DSN = env('SENTRY_DSN', default='')  # noqa: F405
 
 if SENTRY_DSN:
+    integrations = [DjangoIntegration()]
+    
+    # Only add Celery/Redis integration if Redis is present
+    if REDIS_URL:
+        integrations.append(CeleryIntegration())
+        integrations.append(RedisIntegration())
+        
     sentry_sdk.init(
         dsn=SENTRY_DSN,
-        integrations=[
-            DjangoIntegration(),
-            CeleryIntegration(),
-            RedisIntegration(),
-        ],
+        integrations=integrations,
         traces_sample_rate=0.1,
         send_default_pii=False,
         environment='production',
