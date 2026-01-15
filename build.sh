@@ -2,14 +2,25 @@
 # Exit on error
 set -o errexit
 
-# Install dependencies
+echo "---------------------------------------"
+echo "🚀 STARTING BUILD PROCESS"
+echo "---------------------------------------"
+
+echo "📦 Upgrading pip..."
+pip install --upgrade pip
+
+echo "📦 Installing requirements..."
 pip install -r requirements.txt
 
-# Convert static files
+echo "🎨 Collecting static files..."
 python manage.py collectstatic --no-input
 
-# Apply DB migrations
+echo "💾 Applying database migrations..."
 python manage.py migrate
 
-# Create superuser if configured
+echo "👤 Creating Superuser (if needed)..."
 python create_superuser.py
+
+echo "---------------------------------------"
+echo "✅ BUILD FINISHED SUCCESSFULLY"
+echo "---------------------------------------"
