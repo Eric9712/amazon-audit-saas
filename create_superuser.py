@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 django.setup()
 
+User = get_user_model()
+
 # Hardcoded credentials for emergency access
 # TODO: Delete this file after successful login!
 email = "admin@amazon-audit.com"
