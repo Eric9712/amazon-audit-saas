@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Connexions - Console Admin{% endblock %}
+{% block content %}
+<div class="admin-console">
+    <div class="admin-header">
+        <h1>🔐 Historique des Connexions</h1>
+        <a href="{% url 'admin_console:dashboard' %}" class="btn btn-secondary">← Retour</a>
+    </div>
+    <div class="admin-card">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Date/Heure</th>
+                    <th>Adresse IP</th>
+                    <th>Navigateur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for login in logins %}
+                <tr>
+                    <td>{{ login.user.email }}</td>
+                    <td>{{ login.login_time|date:"d/m/Y H:i:s" }}</td>
+                    <td>{{ login.ip_address|default:"-" }}</td>
+                    <td>{{ login.user_agent|truncatechars:50|default:"-" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4">Aucune connexion enregistrée.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+.admin-console { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.admin-card { background: var(--color-white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); padding: 1.5rem; overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th, .admin-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--color-gray-200); }
+.admin-table th { color: var(--color-gray-500); font-size: 0.75rem; text-transform: uppercase; }
+</style>
+{% endblock %}

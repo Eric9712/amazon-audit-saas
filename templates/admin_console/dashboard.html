@@ -1,0 +1,478 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Console Administrateur - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="admin-console">
+    <!-- Header -->
+    <div class="admin-header">
+        <div class="admin-header-content">
+            <h1>🎛️ Console Administrateur</h1>
+            <p class="admin-subtitle">Vue d'ensemble de l'activité du site</p>
+        </div>
+        <div class="admin-actions">
+            <a href="{% url 'admin:index' %}" class="btn btn-secondary">
+                <i class="fas fa-cog"></i> Django Admin
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card stat-users">
+            <div class="stat-icon">👥</div>
+            <div class="stat-info">
+                <div class="stat-value">{{ total_users }}</div>
+                <div class="stat-label">Utilisateurs Total</div>
+                <div class="stat-trend">+{{ users_this_week }} cette semaine</div>
+            </div>
+        </div>
+
+        <div class="stat-card stat-revenue">
+            <div class="stat-icon">💰</div>
+            <div class="stat-info">
+                <div class="stat-value">{{ total_revenue|floatformat:2 }} €</div>
+                <div class="stat-label">Revenus Total</div>
+                <div class="stat-trend">+{{ revenue_this_month|floatformat:2 }} € ce mois</div>
+            </div>
+        </div>
+
+        <div class="stat-card stat-pending">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-info">
+                <div class="stat-value">{{ pending_count }}</div>
+                <div class="stat-label">Paiements en Attente</div>
+                <div class="stat-trend">{{ pending_amount|floatformat:2 }} € à valider</div>
+            </div>
+        </div>
+
+        <div class="stat-card stat-audits">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+                <div class="stat-value">{{ total_audits }}</div>
+                <div class="stat-label">Audits Réalisés</div>
+                <div class="stat-trend">{{ audits_in_progress }} en cours</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secondary Stats -->
+    <div class="stats-secondary">
+        <div class="secondary-stat">
+            <span class="secondary-value">{{ logins_today }}</span>
+            <span class="secondary-label">Connexions aujourd'hui</span>
+        </div>
+        <div class="secondary-stat">
+            <span class="secondary-value">{{ amazon_connected }}</span>
+            <span class="secondary-label">Comptes Amazon liés</span>
+        </div>
+        <div class="secondary-stat">
+            <span class="secondary-value">{{ total_losses|floatformat:2 }} €</span>
+            <span class="secondary-label">Pertes détectées</span>
+        </div>
+        <div class="secondary-stat">
+            <span class="secondary-value">{{ users_today }}</span>
+            <span class="secondary-label">Nouveaux aujourd'hui</span>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="admin-grid">
+        <!-- Pending Transactions (PRIORITY) -->
+        <div class="admin-card priority-card">
+            <div class="card-header">
+                <h2>⚠️ Paiements à Valider</h2>
+                <a href="{% url 'admin_console:transactions' %}?status=pending" class="btn btn-sm">Voir tout</a>
+            </div>
+            <div class="card-body">
+                {% if pending_transactions %}
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Référence</th>
+                            <th>Client</th>
+                            <th>Montant</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tx in pending_transactions %}
+                        <tr>
+                            <td><code>{{ tx.reference_code|default:"-" }}</code></td>
+                            <td>{{ tx.seller_profile.user.email }}</td>
+                            <td class="amount">{{ tx.amount }} €</td>
+                            <td>{{ tx.created_at|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'admin:payments_paymenttransaction_change' tx.pk %}" class="btn btn-sm btn-primary">Valider</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="empty-state">✅ Aucun paiement en attente de validation.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recent Logins -->
+        <div class="admin-card">
+            <div class="card-header">
+                <h2>🔐 Connexions Récentes</h2>
+                <a href="{% url 'admin_console:logins' %}" class="btn btn-sm">Voir tout</a>
+            </div>
+            <div class="card-body">
+                <ul class="activity-list">
+                    {% for login in recent_logins|slice:":8" %}
+                    <li class="activity-item">
+                        <div class="activity-avatar">{{ login.user.email|slice:":2"|upper }}</div>
+                        <div class="activity-info">
+                            <div class="activity-user">{{ login.user.email }}</div>
+                            <div class="activity-meta">
+                                {{ login.login_time|timesince }} 
+                                {% if login.ip_address %} · {{ login.ip_address }}{% endif %}
+                            </div>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li class="empty-state">Aucune connexion enregistrée.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="admin-card">
+            <div class="card-header">
+                <h2>💳 Dernières Transactions</h2>
+                <a href="{% url 'admin_console:transactions' %}" class="btn btn-sm">Voir tout</a>
+            </div>
+            <div class="card-body">
+                <table class="admin-table compact">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tx in recent_transactions|slice:":8" %}
+                        <tr>
+                            <td>{{ tx.seller_profile.user.email|truncatechars:25 }}</td>
+                            <td class="amount">{{ tx.amount }} €</td>
+                            <td>
+                                {% if tx.status == 'completed' %}
+                                <span class="badge badge-success">Complété</span>
+                                {% elif tx.status == 'pending' %}
+                                <span class="badge badge-warning">En attente</span>
+                                {% else %}
+                                <span class="badge badge-danger">{{ tx.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ tx.created_at|date:"d/m H:i" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="empty-state">Aucune transaction.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Users -->
+        <div class="admin-card">
+            <div class="card-header">
+                <h2>👤 Nouveaux Utilisateurs</h2>
+                <a href="{% url 'admin_console:users' %}" class="btn btn-sm">Voir tout</a>
+            </div>
+            <div class="card-body">
+                <ul class="activity-list">
+                    {% for user in recent_users %}
+                    <li class="activity-item">
+                        <div class="activity-avatar new-user">{{ user.email|slice:":2"|upper }}</div>
+                        <div class="activity-info">
+                            <div class="activity-user">{{ user.email }}</div>
+                            <div class="activity-meta">Inscrit {{ user.date_joined|timesince }}</div>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li class="empty-state">Aucun utilisateur.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.admin-console {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-gray-200);
+}
+
+.admin-header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.admin-subtitle {
+    color: var(--color-gray-500);
+    margin: 0.5rem 0 0;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--color-primary);
+}
+
+.stat-card.stat-users { border-left-color: #3b82f6; }
+.stat-card.stat-revenue { border-left-color: #10b981; }
+.stat-card.stat-pending { border-left-color: #f59e0b; }
+.stat-card.stat-audits { border-left-color: #8b5cf6; }
+
+.stat-icon {
+    font-size: 2.5rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+}
+
+.stat-label {
+    color: var(--color-gray-500);
+    font-size: 0.875rem;
+}
+
+.stat-trend {
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+/* Secondary Stats */
+.stats-secondary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-lg);
+}
+
+.secondary-stat {
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+    padding: 0.75rem;
+}
+
+.secondary-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+}
+
+.secondary-label {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+}
+
+/* Admin Grid */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.admin-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.admin-card.priority-card {
+    grid-column: span 2;
+    border: 2px solid #f59e0b;
+}
+
+@media (max-width: 1024px) {
+    .admin-card.priority-card {
+        grid-column: span 1;
+    }
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--color-gray-100);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.card-header h2 {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.card-body {
+    padding: 1rem 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Tables */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.75rem 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.admin-table th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-gray-500);
+}
+
+.admin-table.compact td {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.amount {
+    font-weight: 600;
+    color: var(--color-gray-900);
+}
+
+/* Activity List */
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.activity-avatar.new-user {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.activity-user {
+    font-weight: 500;
+    color: var(--color-gray-900);
+}
+
+.activity-meta {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+}
+
+/* Badges */
+.badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Empty State */
+.empty-state {
+    color: var(--color-gray-400);
+    text-align: center;
+    padding: 2rem;
+    font-style: italic;
+}
+
+code {
+    background: var(--color-gray-100);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-sm);
+    font-family: monospace;
+    font-size: 0.875rem;
+}
+</style>
+{% endblock %}

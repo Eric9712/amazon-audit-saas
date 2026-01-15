@@ -21,6 +21,9 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
     
+    # Admin Console (Custom Dashboard)
+    path('console/', include('admin_console.urls', namespace='admin_console')),
+    
     # Authentication (django-allauth)
     path('accounts/', include('allauth.urls')),
     

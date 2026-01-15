@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Transactions - Console Admin{% endblock %}
+{% block content %}
+<div class="admin-console">
+    <div class="admin-header">
+        <h1>💳 Transactions</h1>
+        <a href="{% url 'admin_console:dashboard' %}" class="btn btn-secondary">← Retour</a>
+    </div>
+    <div class="filter-bar">
+        <a href="?status=" class="btn {% if not status_filter %}btn-primary{% else %}btn-secondary{% endif %}">Tous</a>
+        <a href="?status=pending" class="btn {% if status_filter == 'pending' %}btn-primary{% else %}btn-secondary{% endif %}">En attente</a>
+        <a href="?status=completed" class="btn {% if status_filter == 'completed' %}btn-primary{% else %}btn-secondary{% endif %}">Complétés</a>
+    </div>
+    <div class="admin-card">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Client</th>
+                    <th>Montant</th>
+                    <th>Méthode</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tx in transactions %}
+                <tr>
+                    <td><code>{{ tx.reference_code|default:"-" }}</code></td>
+                    <td>{{ tx.seller_profile.user.email }}</td>
+                    <td class="amount">{{ tx.amount }} €</td>
+                    <td>{{ tx.get_payment_method_display }}</td>
+                    <td>
+                        {% if tx.status == 'completed' %}
+                        <span class="badge badge-success">Complété</span>
+                        {% elif tx.status == 'pending' %}
+                        <span class="badge badge-warning">En attente</span>
+                        {% else %}
+                        <span class="badge badge-danger">{{ tx.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ tx.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'admin:payments_paymenttransaction_change' tx.pk %}" class="btn btn-sm">Modifier</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7">Aucune transaction.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+.admin-console { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.filter-bar { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.admin-card { background: var(--color-white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); padding: 1.5rem; overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th, .admin-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--color-gray-200); }
+.admin-table th { color: var(--color-gray-500); font-size: 0.75rem; text-transform: uppercase; }
+.amount { font-weight: 600; }
+.badge { padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+.badge-success { background: #d1fae5; color: #065f46; }
+.badge-warning { background: #fef3c7; color: #92400e; }
+.badge-danger { background: #fee2e2; color: #991b1b; }
+code { background: var(--color-gray-100); padding: 0.125rem 0.375rem; border-radius: 4px; }
+</style>
+{% endblock %}

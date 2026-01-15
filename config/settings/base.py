@@ -392,3 +392,6 @@ COMPANY_ADDRESS = {
     'city': env('COMPANY_CITY', default='Paris'),
     'country': env('COMPANY_COUNTRY', default='France'),
 }
+
+# Admin Console
+INSTALLED_APPS += ['admin_console']

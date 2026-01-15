@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Utilisateurs - Console Admin{% endblock %}
+{% block content %}
+<div class="admin-console">
+    <div class="admin-header">
+        <h1>👥 Liste des Utilisateurs</h1>
+        <a href="{% url 'admin_console:dashboard' %}" class="btn btn-secondary">← Retour</a>
+    </div>
+    <div class="admin-card">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Inscrit le</th>
+                    <th>Staff</th>
+                    <th>Actif</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.date_joined|date:"d/m/Y H:i" }}</td>
+                    <td>{% if user.is_staff %}✅{% else %}❌{% endif %}</td>
+                    <td>{% if user.is_active %}✅{% else %}❌{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+.admin-console { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.admin-card { background: var(--color-white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); padding: 1.5rem; }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th, .admin-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--color-gray-200); }
+.admin-table th { color: var(--color-gray-500); font-size: 0.75rem; text-transform: uppercase; }
+</style>
+{% endblock %}
