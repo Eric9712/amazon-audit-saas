@@ -179,7 +179,14 @@ def upload_reports(request):
             messages.error(request, "Veuillez selectionner un fichier.")
             return redirect('audit_engine:upload_reports')
         
-        if not uploaded_file.name.endswith(('.csv', '.txt')):
+        # SECURITY: Check file size (max 10MB)
+        MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+        if uploaded_file.size > MAX_FILE_SIZE:
+            messages.error(request, "Le fichier est trop volumineux. Taille maximale: 10 MB.")
+            return redirect('audit_engine:upload_reports')
+        
+        # SECURITY: Check file extension
+        if not uploaded_file.name.lower().endswith(('.csv', '.txt')):
             messages.error(request, "Format invalide. Veuillez importer un fichier CSV ou TXT.")
             return redirect('audit_engine:upload_reports')
         
@@ -190,6 +197,17 @@ def upload_reports(request):
             
             if not rows:
                 messages.error(request, "Le fichier est vide ou mal formate.")
+                return redirect('audit_engine:upload_reports')
+            
+            # SECURITY: Validate CSV structure (must have some expected columns)
+            first_row_keys = set(rows[0].keys()) if rows else set()
+            expected_columns = {'sku', 'SKU', 'amount', 'total', 'montant', 'date', 'order-id', 'asin', 'ASIN'}
+            if not first_row_keys.intersection(expected_columns):
+                messages.error(
+                    request, 
+                    "Le fichier ne semble pas etre un rapport Amazon valide. "
+                    "Colonnes attendues: sku, amount, total, date, order-id, asin."
+                )
                 return redirect('audit_engine:upload_reports')
             
             audit = Audit.objects.create(

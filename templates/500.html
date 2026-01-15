@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Erreur serveur - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-content">
+        <div class="error-code">500</div>
+        <h1>Erreur interne du serveur</h1>
+        <p>Nous rencontrons un probleme technique. Notre equipe a ete notifiee et travaille a le resoudre.</p>
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">Retour a l'accueil</a>
+            <a href="javascript:location.reload()" class="btn btn-secondary">Reessayer</a>
+        </div>
+        <p class="error-help">
+            Si le probleme persiste, contactez-nous a <a href="mailto:support@amazon-audit.com">support@amazon-audit.com</a>
+        </p>
+    </div>
+</div>
+
+<style>
+.error-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.error-content {
+    max-width: 500px;
+}
+
+.error-code {
+    font-size: 8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--color-danger), #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.error-page h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-gray-900);
+}
+
+.error-page p {
+    color: var(--color-gray-500);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.error-help {
+    font-size: 0.9rem;
+    color: var(--color-gray-400);
+}
+
+.error-help a {
+    color: var(--color-primary);
+}
+</style>
+{% endblock %}

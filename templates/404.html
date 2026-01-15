@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Page non trouvee - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-content">
+        <div class="error-code">404</div>
+        <h1>Page non trouvee</h1>
+        <p>Oups ! La page que vous recherchez n'existe pas ou a ete deplacee.</p>
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">Retour a l'accueil</a>
+            <a href="/dashboard/" class="btn btn-secondary">Mon tableau de bord</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.error-content {
+    max-width: 500px;
+}
+
+.error-code {
+    font-size: 8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.error-page h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-gray-900);
+}
+
+.error-page p {
+    color: var(--color-gray-500);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+</style>
+{% endblock %}

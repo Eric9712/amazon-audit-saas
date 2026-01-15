@@ -13,11 +13,21 @@ import os
 from .base import *  # noqa: F401, F403
 
 # =============================================================================
-# DEBUG (Must be False in production, unless debugging)
+# DEBUG (ALWAYS False in production)
 # =============================================================================
 
-# Permet d'activer le DEBUG si la variable d'environnement est 'True'
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+# SECURITY: DEBUG is ALWAYS False in production
+# If you need to debug, check logs via Sentry or Render dashboard
+DEBUG = False
+
+# Log warning if someone tries to enable DEBUG via environment
+if os.environ.get('DEBUG', 'False').lower() == 'true':
+    import warnings
+    warnings.warn(
+        "SECURITY WARNING: DEBUG=True was requested but is blocked in production. "
+        "Use Sentry or Render logs for debugging.",
+        RuntimeWarning
+    )
 
 import dj_database_url
 
