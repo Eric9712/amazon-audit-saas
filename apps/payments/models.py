@@ -27,6 +27,7 @@ class PaymentTransaction(models.Model):
     class PaymentMethod(models.TextChoices):
         STRIPE = 'stripe', _('Carte Bancaire (Stripe)')
         BANK_TRANSFER = 'bank_transfer', _('Virement Bancaire')
+        CHECK = 'check', _('Chèque Bancaire')
     
     seller_profile = models.ForeignKey(
         'accounts.SellerProfile',

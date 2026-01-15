@@ -48,28 +48,28 @@ for host in additional_hosts:
         CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 
 # =============================================================================
-# SECURITY SETTINGS
+# SECURITY SETTINGS (RELAXED FOR RENDER DEBUGGING)
 # =============================================================================
 
-# Force HTTPS
-SECURE_SSL_REDIRECT = True
+# Render handles SSL termination, so redirect might cause loops/errors if headers missing
+SECURE_SSL_REDIRECT = False 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # HSTS Settings
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_SECONDS = 0 # Disabled for debugging
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
 
-# Cookie Security
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# Cookie Security (Relaxed)
+SESSION_COOKIE_SECURE = False # Try False if admin login fails loops
+CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 
 # Content Security
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
+X_FRAME_OPTIONS = 'SAMEORIGIN' # Allow same origin frames
 
 # =============================================================================
 # EMAIL (Production - Mailgun)

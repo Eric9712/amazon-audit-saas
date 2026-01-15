@@ -74,6 +74,29 @@ def buy_credits(request, package_id):
             'bank_details': settings.BANK_DETAILS,
         })
     
+    if method == 'check':
+        # Generate reference and create pending transaction
+        reference = PaymentTransaction.generate_reference_code()
+        
+        transaction = PaymentTransaction.objects.create(
+            seller_profile=seller_profile,
+            transaction_type=PaymentTransaction.TransactionType.CREDIT_PURCHASE,
+            status=PaymentTransaction.TransactionStatus.PENDING,
+            payment_method=PaymentTransaction.PaymentMethod.CHECK,
+            amount=package.price,
+            currency=package.currency,
+            credits_purchased=package.credits,
+            reference_code=reference,
+            description=f"Achat {package.name} (Chèque)",
+        )
+        
+        return render(request, 'payments/check_payment.html', {
+            'package': package,
+            'transaction': transaction,
+            'reference': reference,
+            'company_address': settings.COMPANY_ADDRESS,
+        })
+    
     # Real Stripe payment
     success_url = request.build_absolute_uri(reverse('payments:success'))
     cancel_url = request.build_absolute_uri(reverse('payments:pricing'))

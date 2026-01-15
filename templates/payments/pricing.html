@@ -56,8 +56,13 @@
                     Payer par Virement Bancaire
                 </a>
                 
+                <a href="{% url 'payments:buy_credits' package.pk %}?method=check" class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 underline decoration-dotted flex items-center justify-center gap-2 transition-colors">
+                    <i class="fas fa-money-check-alt"></i>
+                    Payer par Chèque
+                </a>
+                
                 <p class="text-xs text-center text-gray-500 mt-2">
-                    Validation manuelle après réception des fonds.
+                    Validation manuelle à réception.
                 </p>
             </div>
         </div>

@@ -380,3 +380,15 @@ BANK_DETAILS = {
     'bic': env('BANK_BIC', default='XXXXXXXX'),
     'holder_name': env('BANK_HOLDER_NAME', default='SAS AMAZON AUDIT'),
 }
+
+# =============================================================================
+# COMPANY ADDRESS (For Checks)
+# =============================================================================
+
+COMPANY_ADDRESS = {
+    'name': env('COMPANY_NAME', default='SAS AMAZON AUDIT'),
+    'street': env('COMPANY_STREET', default='10 Rue de la Paix'),
+    'zip': env('COMPANY_ZIP', default='75001'),
+    'city': env('COMPANY_CITY', default='Paris'),
+    'country': env('COMPANY_COUNTRY', default='France'),
+}
