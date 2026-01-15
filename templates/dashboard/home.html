@@ -45,9 +45,9 @@
     {% if not seller_profile.is_amazon_connected %}
     <div class="alert alert-warning">
         <div class="alert-content">
-            <h3>🔗 Connectez votre compte Amazon</h3>
-            <p>Pour lancer un audit, vous devez d'abord connecter votre compte Seller Central.</p>
-            <a href="{% url 'dashboard:connect_amazon' %}" class="btn btn-primary">Connecter Amazon</a>
+            <h3>📤 Importez vos rapports Amazon</h3>
+            <p>Pour lancer un audit, téléchargez vos rapports depuis Seller Central et importez-les ici.</p>
+            <a href="{% url 'audit_engine:upload_reports' %}" class="btn btn-primary">Importer mes rapports</a>
         </div>
     </div>
     {% else %}

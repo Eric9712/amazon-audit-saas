@@ -13,6 +13,7 @@ app_name = 'audit_engine'
 urlpatterns = [
     # Audit management
     path('start/', views.start_audit, name='start_audit'),
+    path('upload/', views.upload_reports, name='upload_reports'),
     path('<int:audit_id>/status/', views.audit_status, name='audit_status'),
     path('<int:audit_id>/status/api/', views.audit_status_api, name='audit_status_api'),
     path('<int:audit_id>/results/', views.audit_results, name='audit_results'),

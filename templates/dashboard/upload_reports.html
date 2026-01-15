@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+
+{% block title %}Importer vos rapports Amazon - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="upload-page">
+    <div class="upload-container">
+        <!-- Header -->
+        <div class="upload-header">
+            <h1>📤 Importer vos rapports Amazon</h1>
+            <p class="subtitle">Téléchargez vos rapports depuis Seller Central pour lancer l'audit.</p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions-card">
+            <h2>📋 Comment obtenir vos rapports ?</h2>
+            <ol class="steps-list">
+                <li>
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <strong>Connectez-vous à Seller Central</strong>
+                        <p>Rendez-vous sur <a href="https://sellercentral.amazon.fr" target="_blank" rel="noopener">sellercentral.amazon.fr</a></p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <strong>Accédez aux Rapports</strong>
+                        <p>Menu : <code>Rapports</code> → <code>Paiements</code> → <code>Tous les relevés</code></p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <strong>Sélectionnez la période</strong>
+                        <p>Choisissez les <strong>18 derniers mois</strong> pour une analyse complète.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                        <strong>Téléchargez le fichier CSV</strong>
+                        <p>Cliquez sur <code>Télécharger</code> et enregistrez le fichier sur votre ordinateur.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">5</span>
+                    <div class="step-content">
+                        <strong>Importez-le ci-dessous</strong>
+                        <p>Glissez le fichier ou cliquez pour le sélectionner.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Upload Form -->
+        <div class="upload-card">
+            <h2>📁 Sélectionnez votre fichier</h2>
+            <form method="post" enctype="multipart/form-data" class="upload-form">
+                {% csrf_token %}
+                
+                <div class="file-drop-zone" id="dropZone">
+                    <div class="drop-icon">📂</div>
+                    <p class="drop-text">Glissez votre fichier ici</p>
+                    <p class="drop-subtext">ou cliquez pour sélectionner</p>
+                    <input type="file" name="report_file" id="reportFile" accept=".csv,.txt" required>
+                </div>
+                
+                <div class="file-info" id="fileInfo" style="display: none;">
+                    <span class="file-name" id="fileName"></span>
+                    <button type="button" class="btn-remove" onclick="clearFile()">✕</button>
+                </div>
+                
+                <div class="accepted-formats">
+                    <strong>Formats acceptés :</strong> CSV, TXT (rapport de paiements Amazon)
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                    🚀 Lancer l'analyse
+                </button>
+            </form>
+        </div>
+
+        <!-- Security Note -->
+        <div class="security-note">
+            <span class="security-icon">🔒</span>
+            <div>
+                <strong>Vos données sont protégées</strong>
+                <p>Nous analysons uniquement les données de remboursement. Vos informations personnelles et financières restent confidentielles.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.upload-page {
+    min-height: 100vh;
+    padding: 100px 20px 60px;
+    background: var(--color-gray-50);
+}
+
+.upload-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.upload-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.upload-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--color-gray-500);
+    font-size: 1.1rem;
+}
+
+.instructions-card,
+.upload-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.instructions-card h2,
+.upload-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-gray-800);
+}
+
+.steps-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.steps-list li {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.steps-list li:last-child {
+    border-bottom: none;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-content strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--color-gray-800);
+}
+
+.step-content p {
+    margin: 0;
+    color: var(--color-gray-500);
+    font-size: 0.9rem;
+}
+
+.step-content code {
+    background: var(--color-gray-100);
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+/* File Upload */
+.file-drop-zone {
+    border: 2px dashed var(--color-gray-300);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.file-drop-zone:hover,
+.file-drop-zone.dragover {
+    border-color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.05);
+}
+
+.file-drop-zone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.drop-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.drop-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: 0.25rem;
+}
+
+.drop-subtext {
+    color: var(--color-gray-500);
+    font-size: 0.9rem;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    margin: 1rem 0;
+}
+
+.file-name {
+    font-weight: 500;
+    color: var(--color-gray-800);
+}
+
+.btn-remove {
+    background: none;
+    border: none;
+    color: var(--color-gray-500);
+    cursor: pointer;
+    font-size: 1.25rem;
+}
+
+.accepted-formats {
+    text-align: center;
+    color: var(--color-gray-500);
+    font-size: 0.85rem;
+    margin: 1rem 0;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* Security Note */
+.security-note {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-lg);
+}
+
+.security-icon {
+    font-size: 1.5rem;
+}
+
+.security-note strong {
+    color: #065f46;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.security-note p {
+    margin: 0;
+    color: #047857;
+    font-size: 0.85rem;
+}
+</style>
+
+<script>
+// File drop zone interaction
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('reportFile');
+const fileInfo = document.getElementById('fileInfo');
+const fileName = document.getElementById('fileName');
+
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('dragover');
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        showFileName(e.dataTransfer.files[0].name);
+    }
+});
+
+fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) {
+        showFileName(fileInput.files[0].name);
+    }
+});
+
+function showFileName(name) {
+    fileName.textContent = name;
+    fileInfo.style.display = 'flex';
+    dropZone.style.display = 'none';
+}
+
+function clearFile() {
+    fileInput.value = '';
+    fileInfo.style.display = 'none';
+    dropZone.style.display = 'block';
+}
+</script>
+{% endblock %}

@@ -5,7 +5,9 @@ Views for audit management and results display.
 """
 
 import logging
-from datetime import date
+import csv
+import io
+from datetime import date, datetime
 from decimal import Decimal
 
 from django.contrib import messages
@@ -16,12 +18,11 @@ from django.views.decorators.http import require_http_methods, require_POST
 from django.utils import timezone
 
 from apps.accounts.models import SellerProfile
-from apps.audit_engine.models import Audit, ClaimCase, LostItem
+from apps.audit_engine.models import Audit, ClaimCase, LostItem, AuditReport
 from apps.audit_engine.constants import AuditStatus
 from apps.audit_engine.tasks import run_full_audit
 from apps.audit_engine.services.case_generator import CaseGenerator
 from utils.helpers import calculate_date_range
-from utils.decorators import require_amazon_connected
 
 logger = logging.getLogger(__name__)
 
@@ -227,4 +228,102 @@ def audit_history(request):
     
     return render(request, 'dashboard/audit_history.html', {
         'audits': audits,
+    })
+
+@login_required
+def upload_reports(request):
+    """Upload Amazon reports manually (CSV files)."""
+    seller_profile, _ = SellerProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        uploaded_file = request.FILES.get('report_file')
+        
+        if not uploaded_file:
+            messages.error(request, "Veuillez sélectionner un fichier.")
+            return redirect('audit_engine:upload_reports')
+        
+        # Check file type
+        if not uploaded_file.name.endswith(('.csv', '.txt')):
+            messages.error(request, "Format invalide. Veuillez importer un fichier CSV ou TXT.")
+            return redirect('audit_engine:upload_reports')
+        
+        try:
+            # Read file content
+            file_content = uploaded_file.read().decode('utf-8-sig')
+            
+            # Parse CSV
+            reader = csv.DictReader(io.StringIO(file_content))
+            rows = list(reader)
+            
+            if not rows:
+                messages.error(request, "Le fichier est vide ou mal formaté.")
+                return redirect('audit_engine:upload_reports')
+            
+            # Create audit with uploaded data
+            audit = Audit.objects.create(
+                seller_profile=seller_profile,
+                start_date=date.today().replace(month=1, day=1),
+                end_date=date.today(),
+                status=AuditStatus.COMPLETED,
+                current_step="Analyse du fichier importé",
+            )
+            
+            # Store raw report
+            AuditReport.objects.create(
+                audit=audit,
+                report_type='reimbursements',
+                raw_data={'rows': rows[:1000], 'total_rows': len(rows)},
+            )
+            
+            # Analyze for lost items (simplified analysis)
+            losses_detected = 0
+            total_value = Decimal('0.00')
+            
+            for row in rows:
+                # Look for reimbursement-related columns
+                amount = row.get('amount-total', row.get('total', row.get('montant', '0')))
+                try:
+                    amount_value = Decimal(str(amount).replace(',', '.').replace(' ', ''))
+                    if amount_value < 0:  # Negative = potential loss
+                        losses_detected += 1
+                        total_value += abs(amount_value)
+                        
+                        # Create lost item
+                        LostItem.objects.create(
+                            audit=audit,
+                            loss_type='inventory_lost',
+                            sku=row.get('sku', row.get('SKU', 'UNKNOWN')),
+                            fnsku=row.get('fnsku', row.get('FNSKU', '')),
+                            quantity=1,
+                            estimated_value=abs(amount_value),
+                            incident_date=date.today(),
+                            status='detected',
+                            raw_data=row,
+                        )
+                except (ValueError, TypeError):
+                    continue
+            
+            # Update audit summary
+            audit.current_step = "Analyse terminée"
+            audit.save()
+            
+            # Mark seller as "connected" (they have data now)
+            seller_profile.is_amazon_connected = True
+            seller_profile.save()
+            
+            messages.success(
+                request,
+                f"Fichier analysé avec succès ! {len(rows)} lignes traitées, "
+                f"{losses_detected} anomalies détectées pour un total de {total_value:.2f} €."
+            )
+            
+            return redirect('audit_engine:audit_results', audit_id=audit.pk)
+            
+        except Exception as e:
+            logger.error(f"Error processing uploaded file: {e}")
+            messages.error(request, f"Erreur lors de l'analyse du fichier: {str(e)}")
+            return redirect('audit_engine:upload_reports')
+    
+    return render(request, 'dashboard/upload_reports.html', {
+        'seller_profile': seller_profile,
     })
