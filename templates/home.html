@@ -882,12 +882,36 @@
         justify-content: center;
     }
     
+    /* Hide complex visual on mobile to save space */
+    .hero-visual {
+        display: none !important;
+    }
+    
     .stats-dashboard {
-        padding: 20px;
+        display: none;
     }
     
     .main-stat h2 {
         font-size: 2rem !important;
+    }
+    
+    /* Make hero text take full width */
+    .hero-text {
+        text-align: center;
+    }
+    
+    /* Reduce padding on sections */
+    section {
+        padding: 40px 16px !important;
+    }
+    
+    /* Fix any overflow */
+    .hero-landing {
+        overflow-x: hidden;
+    }
+    
+    body {
+        overflow-x: hidden;
     }
 }
 </style>
