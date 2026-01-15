@@ -77,6 +77,18 @@
         </div>
     </div>
 
+    <!-- Charts Section -->
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>📈 Inscriptions (30 derniers jours)</h3>
+            <canvas id="registrationsChart" height="200"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>💰 Revenus (30 derniers jours)</h3>
+            <canvas id="revenueChart" height="200"></canvas>
+        </div>
+    </div>
+
     <!-- Main Content Grid -->
     <div class="admin-grid">
         <!-- Pending Transactions (PRIORITY) -->
@@ -474,5 +486,91 @@ code {
     font-family: monospace;
     font-size: 0.875rem;
 }
+
+/* Charts */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.chart-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.chart-card h3 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    color: var(--color-gray-800);
+}
+
+@media (max-width: 768px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Registrations Chart
+    const regCtx = document.getElementById('registrationsChart').getContext('2d');
+    const regData = {{ registrations_chart|safe }};
+    
+    new Chart(regCtx, {
+        type: 'line',
+        data: {
+            labels: regData.map(d => new Date(d.day).toLocaleDateString()),
+            datasets: [{
+                label: 'Nouveaux Utilisateurs',
+                data: regData.map(d => d.count),
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+
+    // Revenue Chart
+    const revCtx = document.getElementById('revenueChart').getContext('2d');
+    const revData = {{ revenue_chart|safe }};
+    
+    new Chart(revCtx, {
+        type: 'bar',
+        data: {
+            labels: revData.map(d => new Date(d.day).toLocaleDateString()),
+            datasets: [{
+                label: 'Revenus (€)',
+                data: revData.map(d => d.total),
+                backgroundColor: '#10b981',
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+});
+</script>
 {% endblock %}
