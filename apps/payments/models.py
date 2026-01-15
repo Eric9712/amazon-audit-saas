@@ -22,6 +22,11 @@ class PaymentTransaction(models.Model):
         COMPLETED = 'completed', _('Complété')
         FAILED = 'failed', _('Échoué')
         REFUNDED = 'refunded', _('Remboursé')
+        CANCELLED = 'cancelled', _('Annulé')
+    
+    class PaymentMethod(models.TextChoices):
+        STRIPE = 'stripe', _('Carte Bancaire (Stripe)')
+        BANK_TRANSFER = 'bank_transfer', _('Virement Bancaire')
     
     seller_profile = models.ForeignKey(
         'accounts.SellerProfile',
@@ -41,6 +46,19 @@ class PaymentTransaction(models.Model):
         max_length=20,
         choices=TransactionStatus.choices,
         default=TransactionStatus.PENDING
+    )
+    payment_method = models.CharField(
+        _('méthode de paiement'),
+        max_length=20,
+        choices=PaymentMethod.choices,
+        default=PaymentMethod.STRIPE
+    )
+    reference_code = models.CharField(
+        _('référence de commande'),
+        max_length=20,
+        blank=True,
+        unique=True,
+        null=True
     )
     
     # Amounts
@@ -89,6 +107,22 @@ class PaymentTransaction(models.Model):
         self.status = self.TransactionStatus.FAILED
         self.metadata['failure_reason'] = reason
         self.save(update_fields=['status', 'metadata'])
+    
+    @staticmethod
+    def generate_reference_code():
+        """Generate a unique reference code for bank transfers."""
+        import random
+        import string
+        
+        while True:
+            # Format: ORD-XXXX-XXXX (e.g., ORD-A7B2-9X4Y)
+            chars = string.ascii_uppercase + string.digits
+            part1 = ''.join(random.choices(chars, k=4))
+            part2 = ''.join(random.choices(chars, k=4))
+            code = f"ORD-{part1}-{part2}"
+            
+            if not PaymentTransaction.objects.filter(reference_code=code).exists():
+                return code
 
 
 class CreditPackage(models.Model):

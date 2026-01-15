@@ -48,6 +48,32 @@ def buy_credits(request, package_id):
         # Redirect to simulation confirmation page
         return redirect('payments:simulate_payment', package_id=package.id)
     
+    # Check for payment method
+    method = request.GET.get('method', 'stripe')
+    
+    if method == 'bank_transfer':
+        # Generate reference and create pending transaction
+        reference = PaymentTransaction.generate_reference_code()
+        
+        transaction = PaymentTransaction.objects.create(
+            seller_profile=seller_profile,
+            transaction_type=PaymentTransaction.TransactionType.CREDIT_PURCHASE,
+            status=PaymentTransaction.TransactionStatus.PENDING,
+            payment_method=PaymentTransaction.PaymentMethod.BANK_TRANSFER,
+            amount=package.price,
+            currency=package.currency,
+            credits_purchased=package.credits,
+            reference_code=reference,
+            description=f"Achat {package.name} (Virement)",
+        )
+        
+        return render(request, 'payments/bank_transfer.html', {
+            'package': package,
+            'transaction': transaction,
+            'reference': reference,
+            'bank_details': settings.BANK_DETAILS,
+        })
+    
     # Real Stripe payment
     success_url = request.build_absolute_uri(reverse('payments:success'))
     cancel_url = request.build_absolute_uri(reverse('payments:pricing'))

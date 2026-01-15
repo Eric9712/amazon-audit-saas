@@ -369,3 +369,14 @@ LOGGING = {
 # Create logs directory if it doesn't exist
 LOGS_DIR = BASE_DIR / 'logs'
 LOGS_DIR.mkdir(exist_ok=True)
+
+# =============================================================================
+# BANK DETAILS (For Wire Transfer)
+# =============================================================================
+
+BANK_DETAILS = {
+    'bank_name': env('BANK_NAME', default='Ma Banque'),
+    'iban': env('BANK_IBAN', default='FR76 XXXX XXXX XXXX XXXX XXXX XXX'),
+    'bic': env('BANK_BIC', default='XXXXXXXX'),
+    'holder_name': env('BANK_HOLDER_NAME', default='SAS AMAZON AUDIT'),
+}
