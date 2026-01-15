@@ -7,6 +7,7 @@
       name="description"
       content="Amazon Audit SaaS - Récupérez votre argent perdu sur Amazon FBA"
     />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
     <title>{% block title %}Amazon Audit{% endblock %}</title>
 
     <!-- Google Fonts -->
@@ -34,7 +35,12 @@
           <span class="logo-text">Amazon Audit</span>
         </a>
 
-        <div class="nav-links">
+        <!-- Mobile hamburger button -->
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="nav-links" id="navLinks">
           {% if user.is_authenticated %}
           <a href="{% url 'dashboard:home' %}" class="nav-link">Dashboard</a>
           <a href="{% url 'payments:pricing' %}" class="nav-link">Crédits</a>

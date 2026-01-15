@@ -15,6 +15,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 5000);
   });
 
+  // Mobile navigation toggle
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if (navToggle && navLinks) {
+    navToggle.addEventListener("click", function () {
+      navLinks.classList.toggle("active");
+    });
+  }
+
   // Copy to clipboard helper
   window.copyToClipboard = function (text) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
