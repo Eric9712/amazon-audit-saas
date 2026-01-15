@@ -72,15 +72,22 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'SAMEORIGIN' # Allow same origin frames
 
 # =============================================================================
-# EMAIL (Production - Mailgun)
+# EMAIL (Production - Mailgun or Console fallback)
 # =============================================================================
 
-EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+MAILGUN_API_KEY = env('MAILGUN_API_KEY', default='')  # noqa: F405
+MAILGUN_SENDER_DOMAIN = env('MAILGUN_SENDER_DOMAIN', default='')  # noqa: F405
 
-ANYMAIL = {
-    'MAILGUN_API_KEY': env('MAILGUN_API_KEY', default=''),  # noqa: F405
-    'MAILGUN_SENDER_DOMAIN': env('MAILGUN_SENDER_DOMAIN', default=''),  # noqa: F405
-}
+if MAILGUN_API_KEY and MAILGUN_SENDER_DOMAIN:
+    EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+    ANYMAIL = {
+        'MAILGUN_API_KEY': MAILGUN_API_KEY,
+        'MAILGUN_SENDER_DOMAIN': MAILGUN_SENDER_DOMAIN,
+    }
+else:
+    # Fallback: No real emails, just log them
+    print("WARNING: Mailgun not configured. Emails will be logged to console.")
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # =============================================================================
 # CACHING (Redis in production)
