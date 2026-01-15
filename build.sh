@@ -1,12 +1,5 @@
-#!/bin/bash
-# Exit on error
+#!/usr/bin/env bash
 set -o errexit
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Convert static files
 python manage.py collectstatic --no-input
-
-# Apply DB migrations
 python manage.py migrate
