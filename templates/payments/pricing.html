@@ -44,15 +44,21 @@
             </ul>
             
             <div class="flex flex-col gap-3">
+                <!-- Stripe/Cheque temporarily disabled
                 <a href="{% url 'payments:buy_credits' package.pk %}" class="btn {% if package.is_popular %}btn-primary{% else %}btn-secondary{% endif %} w-full py-3 mb-2 flex items-center justify-center gap-2">
                     <i class="fas fa-credit-card"></i>
                     Chèque / CB (Stripe)
                 </a>
+                -->
                 
-                <a href="{% url 'payments:buy_credits' package.pk %}?method=bank_transfer" class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 underline decoration-dotted flex items-center justify-center gap-2 transition-colors">
+                <a href="{% url 'payments:buy_credits' package.pk %}?method=bank_transfer" class="btn {% if package.is_popular %}btn-primary{% else %}btn-secondary{% endif %} w-full py-3 mb-2 flex items-center justify-center gap-2">
                     <i class="fas fa-university"></i>
-                    Virement Bancaire (0 frais)
+                    Payer par Virement Bancaire
                 </a>
+                
+                <p class="text-xs text-center text-gray-500 mt-2">
+                    Validation manuelle après réception des fonds.
+                </p>
             </div>
         </div>
         {% empty %}
