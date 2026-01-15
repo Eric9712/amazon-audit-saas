@@ -666,13 +666,89 @@ a:hover {
   }
 }
 
-/* Small Mobiles */
+/* Small Mobiles (Portrait Mode) */
 @media (max-width: 480px) {
-  .hero-title {
-    font-size: 2rem; /* Even smaller */
+  /* Reduce global spacing */
+  :root {
+    --spacing-6: 1rem;
+    --spacing-8: 1.5rem;
+  }
+
+  /* Typography Adjustments */
+  h1, .hero-title {
+    font-size: 1.75rem !important; /* Smaller main title */
+    line-height: 1.2;
+    word-wrap: break-word; /* Prevent overflow */
+  }
+
+  h2 {
+    font-size: 1.5rem;
   }
   
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: var(--spacing-8) 0;
+  }
+  
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack stats */
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+
   .stat-value {
     font-size: 2rem;
+  }
+
+  /* Navigation */
+  .nav-logo {
+    font-size: 1.2rem;
+  }
+  
+  .nav-container {
+    padding: 0 1rem;
+  }
+
+  /* Buttons: Full width for easy tapping */
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .hero-cta {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  /* Cards & Content */
+  .card {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-lg); /* Slightly less round to save corner space */
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  /* Tables */
+  .table th, .table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Footer */
+  .footer-container {
+    padding: 0 1rem;
+    text-align: center;
   }
 }
