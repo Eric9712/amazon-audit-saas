@@ -578,29 +578,101 @@ a:hover {
   border-top: 1px solid var(--color-gray-700);
 }
 
-/* Responsive */
+/* Responsive Design */
+
+/* Tablet and smaller desktops */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: var(--font-size-4xl);
+  }
+  
+  .nav-container {
+    padding: 0 var(--spacing-4);
+  }
+}
+
+/* Mobile Devices */
 @media (max-width: 768px) {
+  /* Navigation: Stack vertically */
+  .navbar {
+    padding: var(--spacing-4) 0;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    gap: var(--spacing-4);
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-3);
+    text-align: center;
+  }
+
+  .nav-link, .btn {
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+  
+  .nav-user {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: var(--spacing-8) 0;
+  }
+
   .hero-title {
     font-size: var(--font-size-3xl);
   }
+
   .hero-stats {
     flex-direction: column;
     gap: var(--spacing-4);
   }
-  .nav-links {
-    gap: var(--spacing-3);
+
+  /* Grids: Force single column */
+  .dashboard-cards,
+  .pricing-grid,
+  .features-grid,
+  .footer-container {
+    grid-template-columns: 1fr !important;
   }
-  .dashboard-cards {
-    grid-template-columns: 1fr 1fr;
+
+  /* Tables: Horizontal scroll for data */
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* General Spacing */
+  .main-content {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+
+  .card {
+    padding: var(--spacing-4);
+  }
+
+  /* Payments Page */
+  .pricing-page {
+    padding: 0 var(--spacing-4);
   }
 }
 
+/* Small Mobiles */
 @media (max-width: 480px) {
-  .dashboard-cards {
-    grid-template-columns: 1fr;
+  .hero-title {
+    font-size: 2rem; /* Even smaller */
   }
-  .nav-container {
-    flex-direction: column;
-    gap: var(--spacing-4);
+  
+  .stat-value {
+    font-size: 2rem;
   }
 }
