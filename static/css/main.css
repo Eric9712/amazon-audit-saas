@@ -527,11 +527,11 @@ p, li, span, div {
 }
 
 .alert-warning h3 {
-  color: #ffc107;
+  color: #ffffff;
 }
 
 .alert-warning p {
-  color: var(--color-gray-600);
+  color: var(--color-gray-400);
 }
 
 .alert h3 {
