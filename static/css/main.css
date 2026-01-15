@@ -15,18 +15,18 @@
   --color-danger: #ff4757;
   --color-warning: #ffbe0b;
 
-  /* Neutral colors (Dark Theme by Default) */
+  /* Neutral colors (Dark Theme Optimized) */
   --color-white: #1e293b; /* Card background */
   --color-gray-50: #0f172a; /* Page background */
   --color-gray-100: #1e293b; /* Secondary bg */
   --color-gray-200: #334155; /* Borders */
-  --color-gray-300: #475569;
-  --color-gray-400: #64748b;
-  --color-gray-500: #94a3b8; /* Muted text */
-  --color-gray-600: #cbd5e1; /* Secondary text */
-  --color-gray-700: #e2e8f0;
-  --color-gray-800: #f1f5f9; /* Primary text */
-  --color-gray-900: #ffffff; /* Headings */
+  --color-gray-300: #94a3b8; /* Text Muted (was 400) */
+  --color-gray-400: #cbd5e1; /* Text Regular (was 500/600) */
+  --color-gray-500: #94a3b8; /* Label Text - Must be readable */
+  --color-gray-600: #e2e8f0; /* Body Text - VERY LIGHT GRAY */
+  --color-gray-700: #f1f5f9; /* Subtitles */
+  --color-gray-800: #f8fafc; /* Primary text - ALMOST WHITE */
+  --color-gray-900: #ffffff; /* Headings - WHITE */
 
   /* Typography */
   --font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -91,7 +91,7 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   line-height: 1.6;
-  color: var(--color-gray-800);
+  color: var(--color-gray-600); /* Use the new light gray for better contrast */
   background-color: var(--color-gray-50);
   min-height: 100vh;
   display: flex;
