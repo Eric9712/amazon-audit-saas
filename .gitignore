@@ -27,3 +27,24 @@ media/
 # OS
 .DS_Store
 Thumbs.db
+
+# Python version
+.python-version
+
+# Compiled files
+*.pyc
+*.pyo
+
+# Coverage
+.coverage
+htmlcov/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Pytest
+.pytest_cache/
+
+# MyPy
+.mypy_cache/

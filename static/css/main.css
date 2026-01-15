@@ -892,3 +892,31 @@ p, li, span, div {
     position: relative;
   }
 }
+
+/* =============================================================================
+   RESPONSIVE TABLES - HORIZONTAL SCROLL ON MOBILE
+   ============================================================================= */
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .table {
+    min-width: 600px;
+  }
+  
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-card.priority-card {
+    grid-column: span 1;
+  }
+}
