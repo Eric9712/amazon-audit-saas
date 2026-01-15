@@ -799,3 +799,35 @@ p, li, span, div {
     text-align: center;
   }
 }
+
+/* =============================================================================
+   TAILWIND-LIKE UTILITY CLASSES FOR DARK MODE
+   ============================================================================= */
+
+/* Text colors - light for dark background */
+.text-gray-300 { color: #cbd5e1 !important; }
+.text-gray-400 { color: #94a3b8 !important; }
+.text-gray-500 { color: #cbd5e1 !important; }
+.text-gray-600 { color: #e2e8f0 !important; }
+.text-gray-700 { color: #f1f5f9 !important; }
+.text-gray-800 { color: #f8fafc !important; }
+.text-gray-900 { color: #ffffff !important; }
+
+/* Dark mode specific */
+.dark\:text-gray-200 { color: #e2e8f0 !important; }
+.dark\:text-gray-300 { color: #cbd5e1 !important; }
+.dark\:text-gray-400 { color: #94a3b8 !important; }
+
+/* Background colors */
+.bg-gray-50 { background-color: #0f172a !important; }
+.bg-gray-100 { background-color: #1e293b !important; }
+.bg-gray-800 { background-color: #1e293b !important; }
+.dark\:bg-gray-800 { background-color: #1e293b !important; }
+.dark\:bg-gray-700 { background-color: #334155 !important; }
+
+/* Border colors */
+.border-gray-200 { border-color: #334155 !important; }
+.dark\:border-gray-600 { border-color: #475569 !important; }
+
+/* White text on dark */
+.text-white { color: #ffffff !important; }
