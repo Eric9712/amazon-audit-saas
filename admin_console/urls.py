@@ -11,4 +11,5 @@ urlpatterns = [
     path('users/', views.users_list, name='users'),
     path('transactions/', views.transactions_list, name='transactions'),
     path('logins/', views.logins_list, name='logins'),
+    path('validate-payment/<int:transaction_id>/', views.validate_payment, name='validate_payment'),
 ]

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Historique des credits - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="credits-history-page">
+    <div class="page-header">
+        <h1>💳 Historique des credits</h1>
+        <a href="{% url 'payments:pricing' %}" class="btn btn-primary">Acheter des credits</a>
+    </div>
+
+    <div class="balance-card">
+        <div class="balance-icon">🎫</div>
+        <div class="balance-info">
+            <span class="balance-value">{{ seller_profile.credits_balance }}</span>
+            <span class="balance-label">credits disponibles</span>
+        </div>
+    </div>
+
+    <div class="transactions-card">
+        <h2>Transactions recentes</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tx in transactions %}
+                <tr>
+                    <td>{{ tx.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        {% if tx.transaction_type == 'purchase' %}
+                        <span class="badge badge-success">Achat</span>
+                        {% elif tx.transaction_type == 'usage' %}
+                        <span class="badge badge-warning">Utilisation</span>
+                        {% elif tx.transaction_type == 'bonus' %}
+                        <span class="badge badge-info">Bonus</span>
+                        {% elif tx.transaction_type == 'refund' %}
+                        <span class="badge badge-danger">Remboursement</span>
+                        {% else %}
+                        <span class="badge">{{ tx.get_transaction_type_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ tx.description }}</td>
+                    <td class="{% if tx.amount > 0 %}text-success{% else %}text-danger{% endif %}">
+                        {% if tx.amount > 0 %}+{% endif %}{{ tx.amount }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">Aucune transaction pour le moment.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+.credits-history-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    margin: 0;
+}
+
+.balance-card {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.balance-icon {
+    font-size: 3rem;
+}
+
+.balance-value {
+    font-size: 3rem;
+    font-weight: 800;
+    display: block;
+}
+
+.balance-label {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.transactions-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.transactions-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.badge-info {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.text-success {
+    color: #10b981 !important;
+    font-weight: 600;
+}
+
+.text-danger {
+    color: #ef4444 !important;
+    font-weight: 600;
+}
+
+.text-center {
+    text-align: center;
+}
+</style>
+{% endblock %}

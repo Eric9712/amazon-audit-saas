@@ -105,7 +105,7 @@
                             <td class="amount">{{ tx.amount }} €</td>
                             <td>{{ tx.created_at|date:"d/m/Y H:i" }}</td>
                             <td>
-                                <a href="{% url 'admin:payments_paymenttransaction_change' tx.pk %}" class="btn btn-sm btn-primary">Valider</a>
+                                <a href="{% url 'admin_console:validate_payment' tx.pk %}" class="btn btn-sm btn-primary" onclick="return confirm('Valider ce paiement de {{ tx.amount }} € ?')">✓ Valider</a>
                             </td>
                         </tr>
                         {% endfor %}

@@ -169,3 +169,19 @@ def payment_history(request):
         'transactions': transactions,
         'current_credits': seller_profile.credits_balance,
     })
+
+
+@login_required
+def credits_history(request):
+    """View credits usage history."""
+    seller_profile, _ = SellerProfile.objects.get_or_create(user=request.user)
+    
+    from apps.accounts.models import CreditTransaction
+    transactions = CreditTransaction.objects.filter(
+        seller_profile=seller_profile
+    ).order_by('-created_at')[:50]
+    
+    return render(request, 'payments/credits_history.html', {
+        'seller_profile': seller_profile,
+        'transactions': transactions,
+    })

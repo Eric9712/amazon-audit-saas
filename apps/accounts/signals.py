@@ -21,6 +21,35 @@ def create_seller_profile(sender, instance, created, **kwargs):
     if created:
         SellerProfile.objects.get_or_create(user=instance)
         logger.info(f"Created SellerProfile for user: {instance.email}")
+        
+        # Send welcome email
+        try:
+            from django.core.mail import send_mail
+            from django.conf import settings
+            
+            send_mail(
+                subject="Bienvenue sur Amazon Audit !",
+                message=f"""Bonjour {instance.get_short_name()},
+
+Bienvenue sur Amazon Audit ! Votre compte a ete cree avec succes.
+
+Pour commencer a recuperer l'argent que Amazon vous doit :
+1. Connectez-vous a votre tableau de bord
+2. Importez vos rapports Amazon Seller Central
+3. Lancez votre premier audit gratuit
+
+Si vous avez des questions, n'hesitez pas a nous contacter.
+
+Cordialement,
+L'equipe Amazon Audit
+""",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[instance.email],
+                fail_silently=True,
+            )
+            logger.info(f"Welcome email sent to: {instance.email}")
+        except Exception as e:
+            logger.warning(f"Failed to send welcome email to {instance.email}: {e}")
 
 
 @receiver(user_logged_in)

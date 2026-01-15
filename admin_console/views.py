@@ -198,3 +198,37 @@ def logins_list(request):
         'logins': logins,
     }
     return render(request, 'admin_console/logins_list.html', context)
+
+
+@staff_member_required
+def validate_payment(request, transaction_id):
+    """Validate a pending payment (bank transfer)."""
+    from apps.payments.models import PaymentTransaction
+    from apps.accounts.models import CreditTransaction
+    from django.contrib import messages
+    from django.shortcuts import redirect, get_object_or_404
+    
+    transaction = get_object_or_404(PaymentTransaction, pk=transaction_id)
+    
+    if transaction.status != PaymentTransaction.TransactionStatus.PENDING:
+        messages.warning(request, f'Transaction {transaction.reference} is not pending.')
+        return redirect('admin_console:dashboard')
+    
+    # Mark as completed
+    transaction.status = PaymentTransaction.TransactionStatus.COMPLETED
+    transaction.completed_at = timezone.now()
+    transaction.save()
+    
+    # Add credits to user
+    seller_profile = transaction.seller_profile
+    seller_profile.add_credits(
+        transaction.credits_purchased,
+        f'Achat valide: {transaction.reference}'
+    )
+    
+    messages.success(
+        request,
+        f'Paiement {transaction.reference} valide! {transaction.credits_purchased} credits ajoutes a {seller_profile.user.email}.'
+    )
+    
+    return redirect('admin_console:dashboard')

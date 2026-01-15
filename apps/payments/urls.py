@@ -15,6 +15,7 @@ urlpatterns = [
     path('buy/<int:package_id>/', views.buy_credits, name='buy_credits'),
     path('success/', views.payment_success, name='success'),
     path('history/', views.payment_history, name='history'),
+    path('credits/history/', views.credits_history, name='credits_history'),
     path('simulate/<int:package_id>/', views.simulate_payment, name='simulate_payment'),
     
     # Webhooks
