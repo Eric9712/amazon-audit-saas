@@ -138,6 +138,44 @@ a:hover {
 }
 
 /* Navigation */
+/* Forms & Inputs - CRITICAL FIX FOR DARK MODE */
+input, select, textarea {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-900);
+  border: 1px solid var(--color-gray-200);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-md);
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--font-size-base);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--color-primary);
+  border-color: transparent;
+  background-color: var(--color-gray-50);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-2);
+  color: var(--color-gray-500); /* Use the readable label color */
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+/* Force text visibility on specific elements that might be overridden */
+p, li, span, div {
+  color: inherit; /* Inherit from body unless specified */
+}
+
+/* Fix for placeholder text */
+::placeholder {
+  color: var(--color-gray-400);
+  opacity: 1;
+}
+
+/* Navigation continues... */
 .navbar {
   background: var(--color-white);
   border-bottom: 1px solid var(--color-gray-200);

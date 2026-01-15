@@ -29,8 +29,22 @@ DATABASES = {
 
 # Allow Render.com domains
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# IMPORTANT: CSRF TRUSTED ORIGINS for Django 4.0+
+# This is required to login to admin dashboard on Render
+CSRF_TRUSTED_ORIGINS = []
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
+
+# Allow additional hosts from env
+additional_hosts = os.environ.get('ALLOWED_HOSTS', '').split(',')
+for host in additional_hosts:
+    if host and host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(host)
+        CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 
 # =============================================================================
 # SECURITY SETTINGS
