@@ -521,8 +521,17 @@ p, li, span, div {
 }
 
 .alert-warning {
-  background: linear-gradient(135deg, #fff3cd, #ffe69c);
-  border: 1px solid var(--color-warning);
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 152, 0, 0.1));
+  border: 1px solid rgba(255, 193, 7, 0.4);
+  color: var(--color-gray-800);
+}
+
+.alert-warning h3 {
+  color: #ffc107;
+}
+
+.alert-warning p {
+  color: var(--color-gray-600);
 }
 
 .alert h3 {
