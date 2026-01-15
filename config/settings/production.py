@@ -13,10 +13,11 @@ import os
 from .base import *  # noqa: F401, F403
 
 # =============================================================================
-# DEBUG (Must be False in production)
+# DEBUG (Must be False in production, unless debugging)
 # =============================================================================
 
-DEBUG = False
+# Permet d'activer le DEBUG si la variable d'environnement est 'True'
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 import dj_database_url
 
