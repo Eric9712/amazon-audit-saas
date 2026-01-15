@@ -148,7 +148,8 @@ if SENTRY_DSN:
 # DJANGO-ALLAUTH (Strict in production)
 # =============================================================================
 
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# Disable email verification since Mailgun is not configured
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # =============================================================================
 # LOGGING (Production level)
