@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Dossier {{ case.reference_code }} - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="case-detail-page">
+    <header class="case-header">
+        <a href="{% url 'audit_engine:audit_results' audit.pk %}" class="back-link">← Retour aux résultats</a>
+        <h1>{{ case.title }}</h1>
+        <span class="case-ref">{{ case.reference_code }}</span>
+    </header>
+    
+    <div class="case-overview">
+        <div class="overview-stat">
+            <span class="stat-label">Type de perte</span>
+            <span class="stat-value">{{ case.get_loss_type_display }}</span>
+        </div>
+        <div class="overview-stat">
+            <span class="stat-label">SKU</span>
+            <span class="stat-value">{{ case.sku }}</span>
+        </div>
+        <div class="overview-stat">
+            <span class="stat-label">Quantité totale</span>
+            <span class="stat-value">{{ case.total_quantity }} unités</span>
+        </div>
+        <div class="overview-stat highlight">
+            <span class="stat-label">Montant récupérable</span>
+            <span class="stat-value">€{{ case.total_value|floatformat:2 }}</span>
+        </div>
+        <div class="overview-stat">
+            <span class="stat-label">Période</span>
+            <span class="stat-value">{{ case.earliest_date|date:"d/m/Y" }} - {{ case.latest_date|date:"d/m/Y" }}</span>
+        </div>
+    </div>
+    
+    <section class="case-text-section">
+        <h2>Texte de réclamation</h2>
+        <p class="section-desc">Copiez ce texte dans Seller Central > Aide > Nous contacter</p>
+        
+        {% if case.is_paid %}
+        <div class="case-text-box">
+            <pre>{{ case.case_text }}</pre>
+            <button class="btn btn-secondary copy-btn" onclick="copyToClipboard()">📋 Copier le texte</button>
+        </div>
+        {% else %}
+        <div class="case-text-locked">
+            <div class="lock-overlay">
+                <span class="lock-icon">🔒</span>
+                <p>Achetez ce dossier pour accéder au texte de réclamation</p>
+                <form method="post" action="{% url 'audit_engine:download_case' case.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Débloquer (1 crédit)</button>
+                </form>
+            </div>
+            <div class="case-text-blur">
+                {{ case.case_text|truncatewords:20 }}...
+            </div>
+        </div>
+        {% endif %}
+    </section>
+    
+    <section class="items-section">
+        <h2>Détail des articles ({{ items|length }})</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>SKU</th>
+                    <th>FNSKU</th>
+                    <th>Quantité</th>
+                    <th>Valeur</th>
+                    <th>Transaction</th>
+                    <th>Centre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.incident_date|date:"d/m/Y" }}</td>
+                    <td>{{ item.sku }}</td>
+                    <td>{{ item.fnsku }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>€{{ item.total_value|floatformat:2 }}</td>
+                    <td><small>{{ item.transaction_id|truncatechars:15 }}</small></td>
+                    <td>{{ item.fulfillment_center }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    
+    <div class="case-actions">
+        {% if case.is_paid %}
+        <form method="post" action="{% url 'audit_engine:download_case' case.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">📥 Télécharger le dossier complet</button>
+        </form>
+        {% else %}
+        <form method="post" action="{% url 'audit_engine:download_case' case.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">Acheter et télécharger (1 crédit)</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function copyToClipboard() {
+    const text = document.querySelector('.case-text-box pre').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Texte copié dans le presse-papier!');
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Historique des paiements - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="history-page">
+    <header class="history-header">
+        <h1>Historique des paiements</h1>
+        <div class="credits-display">
+            <span>Crédits actuels:</span>
+            <strong>{{ current_credits }}</strong>
+        </div>
+    </header>
+    
+    {% if transactions %}
+    <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Montant</th>
+                    <th>Crédits</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>{{ transaction.get_transaction_type_display }}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>€{{ transaction.amount|floatformat:2 }}</td>
+                    <td>+{{ transaction.credits_purchased }}</td>
+                    <td>
+                        <span class="status-badge status-{{ transaction.status }}">
+                            {{ transaction.get_status_display }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="card">
+        <p class="no-data">Aucune transaction pour le moment.</p>
+        <a href="{% url 'payments:pricing' %}" class="btn btn-primary">Acheter des crédits</a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.history-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.credits-display {
+    background: var(--color-primary-light);
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-lg);
+}
+
+.credits-display strong {
+    font-size: var(--font-size-xl);
+    margin-left: var(--spacing-2);
+}
+
+.status-badge {
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.status-completed {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.status-pending {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.status-failed {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.no-data {
+    text-align: center;
+    color: var(--color-gray-500);
+    padding: var(--spacing-8);
+}
+</style>
+{% endblock %}

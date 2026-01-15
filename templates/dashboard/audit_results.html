@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Résultats - {{ audit.reference_code }} - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="results-page">
+    <header class="results-header">
+        <h1>Résultats de l'audit</h1>
+        <p>Référence: {{ audit.reference_code }} | Période: {{ audit.start_date|date:"d/m/Y" }} - {{ audit.end_date|date:"d/m/Y" }}</p>
+    </header>
+    
+    <div class="results-summary">
+        <div class="summary-card highlight">
+            <span class="summary-icon">💰</span>
+            <span class="summary-value">€{{ audit.total_claimable|floatformat:2 }}</span>
+            <span class="summary-label">Montant récupérable</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-icon">📦</span>
+            <span class="summary-value">{{ audit.total_losses_detected }}</span>
+            <span class="summary-label">Pertes détectées</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-icon">📋</span>
+            <span class="summary-value">{{ total_cases }}</span>
+            <span class="summary-label">Dossiers générés</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-icon">✅</span>
+            <span class="summary-value">€{{ audit.total_already_reimbursed|floatformat:2 }}</span>
+            <span class="summary-label">Déjà remboursé</span>
+        </div>
+    </div>
+    
+    <section class="cases-section">
+        <h2>Dossiers de réclamation</h2>
+        <p>Chaque dossier contient les preuves et le texte à copier-coller dans Seller Central.</p>
+        
+        {% if cases %}
+        <div class="cases-grid">
+            {% for case in cases %}
+            <div class="case-card">
+                <div class="case-header">
+                    <span class="case-type">{{ case.get_loss_type_display }}</span>
+                    <span class="case-ref">{{ case.reference_code }}</span>
+                </div>
+                <div class="case-body">
+                    <h3>{{ case.sku }}</h3>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <span class="stat-value">{{ case.total_quantity }}</span>
+                            <span class="stat-label">unités</span>
+                        </div>
+                        <div class="case-stat highlight">
+                            <span class="stat-value">€{{ case.total_value|floatformat:2 }}</span>
+                            <span class="stat-label">récupérable</span>
+                        </div>
+                    </div>
+                    <p class="case-period">{{ case.earliest_date|date:"d/m/Y" }} → {{ case.latest_date|date:"d/m/Y" }}</p>
+                </div>
+                <div class="case-actions">
+                    <a href="{% url 'audit_engine:case_detail' case.pk %}" class="btn btn-secondary">Voir détails</a>
+                    {% if case.is_paid %}
+                    <a href="{% url 'audit_engine:download_case' case.pk %}" class="btn btn-primary">Télécharger</a>
+                    {% else %}
+                    <form method="post" action="{% url 'audit_engine:download_case' case.pk %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Acheter (1 crédit)</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-cases">
+            <p>Aucun dossier de réclamation généré. Soit vos données sont déjà correctement remboursées, soit les pertes sont trop récentes (règle des 45 jours).</p>
+        </div>
+        {% endif %}
+    </section>
+    
+    <div class="results-actions">
+        <a href="{% url 'dashboard:home' %}" class="btn btn-secondary">Retour au dashboard</a>
+        <a href="{% url 'payments:pricing' %}" class="btn btn-primary">Acheter des crédits</a>
+    </div>
+</div>
+{% endblock %}

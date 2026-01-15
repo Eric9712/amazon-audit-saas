@@ -1,0 +1,16 @@
+Bonjour {{ user.get_short_name }},
+
+Votre audit Amazon ({{ audit.reference_code }}) est terminé!
+
+RÉSULTATS:
+- Montant récupérable: €{{ claimable_amount|floatformat:2 }}
+- Pertes détectées: {{ audit.total_losses_detected }}
+- Dossiers générés: {{ cases_count }}
+
+Pour voir les résultats et télécharger vos dossiers de réclamation, connectez-vous à votre compte:
+http://localhost:8000/api/audit/{{ audit.pk }}/results/
+
+Pour récupérer cet argent, vous devrez télécharger les dossiers de réclamation et les soumettre à Amazon Seller Central.
+
+Cordialement,
+L'équipe Amazon Audit SaaS

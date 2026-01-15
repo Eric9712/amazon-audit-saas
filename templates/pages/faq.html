@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}FAQ - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="static-page">
+    <header class="page-header">
+        <h1>Questions fréquentes</h1>
+        <p>Tout ce que vous devez savoir sur Amazon Audit</p>
+    </header>
+    
+    <section class="faq-section">
+        <div class="faq-category">
+            <h2>🔍 L'audit</h2>
+            
+            <div class="faq-item">
+                <h3>L'audit est-il vraiment gratuit ?</h3>
+                <p>Oui, 100% gratuit. Vous pouvez voir tous les résultats de l'audit sans payer. Vous ne payez que si vous décidez de télécharger un dossier de réclamation.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Combien de temps dure un audit ?</h3>
+                <p>Entre 5 et 10 minutes en moyenne. Vous recevez un email quand l'audit est terminé, vous pouvez donc fermer la page.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Quelle période est analysée ?</h3>
+                <p>Nous analysons les 18 derniers mois de données. C'est la période maximale pour laquelle Amazon accepte les réclamations.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Qu'est-ce que la règle des 45 jours ?</h3>
+                <p>Amazon demande d'attendre 45 jours avant de réclamer un remboursement (pour leur laisser le temps de traiter les cas). Nous respectons cette règle et n'incluons que les pertes de plus de 45 jours.</p>
+            </div>
+        </div>
+        
+        <div class="faq-category">
+            <h2>🔐 Sécurité</h2>
+            
+            <div class="faq-item">
+                <h3>Est-ce sécurisé de connecter mon compte Amazon ?</h3>
+                <p>Oui. Nous utilisons OAuth2, le protocole officiel d'Amazon. Vos identifiants ne transitent jamais par nos serveurs. C'est le même système utilisé par les grandes applications Amazon.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Pouvez-vous modifier mon compte Amazon ?</h3>
+                <p>Non, absolument pas. Nous avons uniquement un accès en <strong>lecture seule</strong> aux rapports. Nous ne pouvons pas passer de commandes, modifier des prix, ou toucher à quoi que ce soit.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Puis-je révoquer l'accès ?</h3>
+                <p>Oui, à tout moment depuis votre profil ou directement dans Amazon Seller Central → Paramètres → Autorisations des utilisateurs.</p>
+            </div>
+        </div>
+        
+        <div class="faq-category">
+            <h2>💰 Paiement & Crédits</h2>
+            
+            <div class="faq-item">
+                <h3>Comment fonctionnent les crédits ?</h3>
+                <p>1 crédit = 1 dossier de réclamation. Achetez des crédits, puis utilisez-les pour télécharger les dossiers qui vous intéressent.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Les crédits expirent-ils ?</h3>
+                <p>Non, jamais. Vos crédits restent sur votre compte indéfiniment.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Quels moyens de paiement acceptez-vous ?</h3>
+                <p>Carte bancaire (Visa, Mastercard, AMEX) via Stripe, notre processeur de paiement sécurisé.</p>
+            </div>
+        </div>
+        
+        <div class="faq-category">
+            <h2>📋 Les réclamations</h2>
+            
+            <div class="faq-item">
+                <h3>Que contient un dossier de réclamation ?</h3>
+                <p>Chaque dossier contient : le texte à copier-coller dans Seller Central, la liste des articles avec dates et références, et le montant à réclamer.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Soumettez-vous les réclamations à ma place ?</h3>
+                <p>Non. Conformément aux conditions d'utilisation d'Amazon, nous vous fournissons le dossier et vous le soumettez vous-même. C'est simple : un copier-coller dans l'interface Seller Central.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Quel est le taux de succès des réclamations ?</h3>
+                <p>En moyenne 85-90% des réclamations sont acceptées par Amazon. Les refus sont généralement dus à des cas déjà traités par Amazon (détectés après notre analyse).</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Combien de temps pour être remboursé par Amazon ?</h3>
+                <p>Amazon traite les réclamations sous 7 à 14 jours ouvrés. Le remboursement est crédité directement sur votre solde vendeur.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact-cta">
+        <h2>Vous avez d'autres questions ?</h2>
+        <p>Notre équipe est là pour vous aider.</p>
+        <a href="{% url 'messaging:new_conversation' %}" class="btn btn-primary">💬 Nous contacter</a>
+    </section>
+</div>
+
+<style>
+.static-page {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-12);
+}
+
+.faq-category {
+    margin-bottom: var(--spacing-10);
+}
+
+.faq-category h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-6);
+    padding-bottom: var(--spacing-3);
+    border-bottom: 2px solid var(--color-gray-200);
+}
+
+.faq-item {
+    background: var(--color-white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-4);
+    box-shadow: var(--shadow-sm);
+}
+
+.faq-item h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-3);
+    color: var(--color-gray-900);
+}
+
+.faq-item p {
+    color: var(--color-gray-600);
+    margin: 0;
+    line-height: 1.7;
+}
+
+.contact-cta {
+    text-align: center;
+    background: var(--color-gray-100);
+    padding: var(--spacing-8);
+    border-radius: var(--radius-xl);
+}
+
+.contact-cta h2 {
+    margin-bottom: var(--spacing-3);
+}
+
+.contact-cta p {
+    margin: 0;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Amazon Audit SaaS - Récupérez votre argent perdu sur Amazon FBA"
+    />
+    <title>{% block title %}Amazon Audit{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% load static %}{% static 'css/main.css' %}"
+    />
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="{% url 'home' %}" class="nav-logo">
+          <span class="logo-icon">📦</span>
+          <span class="logo-text">Amazon Audit</span>
+        </a>
+
+        <div class="nav-links">
+          {% if user.is_authenticated %}
+          <a href="{% url 'dashboard:home' %}" class="nav-link">Dashboard</a>
+          <a href="{% url 'payments:pricing' %}" class="nav-link">Crédits</a>
+          <a href="{% url 'messaging:inbox' %}" class="nav-link">📬 Messages</a>
+          <div class="nav-user">
+            <span class="user-credits"
+              >{{ user.seller_profile.credits_balance|default:0 }} crédits</span
+            >
+            <a href="{% url 'accounts:profile' %}" class="nav-link"
+              >{{ user.get_short_name }}</a
+            >
+            <a
+              href="{% url 'account_logout' %}"
+              class="nav-link nav-link-secondary"
+              >Déconnexion</a
+            >
+          </div>
+          {% else %}
+          <a href="{% url 'account_login' %}" class="nav-link">Connexion</a>
+          <a href="{% url 'account_signup' %}" class="btn btn-primary"
+            >Commencer gratuitement</a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages-container">
+      {% for message in messages %}
+      <div class="message message-{{ message.tags }}">
+        {{ message }}
+        <button class="message-close" onclick="this.parentElement.remove()">
+          ×
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content">{% block content %}{% endblock %}</main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>Amazon Audit SaaS</h4>
+          <p>
+            Récupérez votre argent perdu sur Amazon FBA. Audit gratuit, payez
+            uniquement pour les dossiers.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h4>Liens</h4>
+          <a href="{% url 'pages:how_it_works' %}">Comment ça marche</a>
+          <a href="{% url 'pages:pricing' %}">Tarifs</a>
+          <a href="{% url 'pages:faq' %}">FAQ</a>
+        </div>
+        <div class="footer-section">
+          <h4>Légal</h4>
+          <a href="{% url 'pages:terms' %}">Conditions d'utilisation</a>
+          <a href="{% url 'pages:privacy' %}">Politique de confidentialité</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Amazon Audit SaaS. Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/app.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

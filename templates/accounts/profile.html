@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon profil - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <header class="profile-header">
+        <h1>Mon profil</h1>
+    </header>
+    
+    <div class="profile-grid">
+        <div class="card">
+            <h3>Informations personnelles</h3>
+            <dl class="info-list">
+                <dt>Email</dt>
+                <dd>{{ user.email }}</dd>
+                
+                <dt>Nom</dt>
+                <dd>{{ user.get_full_name|default:'-' }}</dd>
+                
+                <dt>Entreprise</dt>
+                <dd>{{ user.company_name|default:'-' }}</dd>
+                
+                <dt>Inscrit le</dt>
+                <dd>{{ user.date_joined|date:"d/m/Y" }}</dd>
+            </dl>
+            <a href="{% url 'accounts:profile_edit' %}" class="btn btn-secondary">
+                Modifier le profil
+            </a>
+        </div>
+        
+        <div class="card">
+            <h3>Compte Amazon</h3>
+            {% if seller_profile.is_amazon_connected %}
+            <dl class="info-list">
+                <dt>Statut</dt>
+                <dd><span class="badge badge-success">Connecté</span></dd>
+                
+                <dt>Seller ID</dt>
+                <dd>{{ seller_profile.amazon_seller_id }}</dd>
+                
+                <dt>Connecté le</dt>
+                <dd>{{ seller_profile.amazon_connected_at|date:"d/m/Y" }}</dd>
+            </dl>
+            <form method="post" action="{% url 'accounts:disconnect_amazon' %}" style="margin-top: var(--spacing-4);">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary" 
+                        onclick="return confirm('Êtes-vous sûr de vouloir déconnecter votre compte Amazon?')">
+                    Déconnecter Amazon
+                </button>
+            </form>
+            {% else %}
+            <p class="text-gray">Aucun compte Amazon connecté.</p>
+            <a href="{% url 'dashboard:connect_amazon' %}" class="btn btn-primary">
+                Connecter Amazon
+            </a>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <h3>Crédits & Abonnement</h3>
+            <dl class="info-list">
+                <dt>Crédits disponibles</dt>
+                <dd><strong class="text-primary">{{ seller_profile.credits_balance }}</strong></dd>
+                
+                <dt>Audits effectués</dt>
+                <dd>{{ seller_profile.total_audits_run }}</dd>
+                
+                <dt>Montant total récupéré</dt>
+                <dd>€{{ seller_profile.total_recovered_amount|floatformat:2 }}</dd>
+            </dl>
+            <a href="{% url 'payments:pricing' %}" class="btn btn-primary">
+                Acheter des crédits
+            </a>
+        </div>
+        
+        <div class="card">
+            <h3>Sécurité</h3>
+            <ul class="action-list">
+                <li>
+                    <a href="{% url 'account_change_password' %}">Modifier le mot de passe</a>
+                </li>
+                <li>
+                    <a href="{% url 'accounts:change_email' %}">Modifier l'email</a>
+                </li>
+                <li>
+                    <a href="{% url 'accounts:delete_account' %}" class="text-danger">
+                        Supprimer mon compte
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.profile-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    margin-bottom: var(--spacing-8);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-6);
+}
+
+.info-list {
+    margin-bottom: var(--spacing-4);
+}
+
+.info-list dt {
+    font-weight: 500;
+    color: var(--color-gray-500);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-1);
+}
+
+.info-list dd {
+    margin-bottom: var(--spacing-4);
+    margin-left: 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.badge-success {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.action-list {
+    list-style: none;
+}
+
+.action-list li {
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.action-list li:last-child {
+    border-bottom: none;
+}
+
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-gray {
+    color: var(--color-gray-500);
+}
+
+.text-danger {
+    color: var(--color-danger);
+}
+</style>
+{% endblock %}

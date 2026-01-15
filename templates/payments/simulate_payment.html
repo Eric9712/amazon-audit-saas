@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Simulation de paiement - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="simulate-payment-page">
+    <div class="simulation-card">
+        <div class="simulation-badge">🧪 MODE DÉVELOPPEMENT</div>
+        
+        <h1>Simulation de paiement</h1>
+        <p class="subtitle">Ce mode permet de tester l'achat de crédits sans transaction réelle.</p>
+        
+        <div class="package-summary">
+            <h2>{{ package.name }}</h2>
+            <div class="package-details">
+                <div class="detail">
+                    <span class="label">Crédits</span>
+                    <span class="value">{{ package.credits }}</span>
+                </div>
+                <div class="detail">
+                    <span class="label">Prix</span>
+                    <span class="value">{{ package.price }}€</span>
+                </div>
+                <div class="detail">
+                    <span class="label">Prix/crédit</span>
+                    <span class="value">{{ package.price_per_credit|floatformat:2 }}€</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="current-balance">
+            <span class="label">Solde actuel :</span>
+            <span class="value">{{ current_credits }} crédits</span>
+        </div>
+        
+        <div class="simulation-actions">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="action" value="confirm" class="btn btn-primary btn-lg">
+                    ✅ Simuler le paiement réussi
+                </button>
+                <button type="submit" name="action" value="cancel" class="btn btn-secondary">
+                    ❌ Annuler
+                </button>
+            </form>
+        </div>
+        
+        <div class="simulation-note">
+            <strong>Note :</strong> En mode réel (production), cette page sera remplacée 
+            par la page de paiement sécurisée Stripe.
+        </div>
+    </div>
+</div>
+
+<style>
+.simulate-payment-page {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.simulation-card {
+    background: var(--color-white);
+    padding: var(--spacing-8);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.simulation-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #8B5CF6, #6366F1);
+    color: white;
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    margin-bottom: var(--spacing-6);
+}
+
+.simulation-card h1 {
+    margin-bottom: var(--spacing-2);
+}
+
+.subtitle {
+    color: var(--color-gray-600);
+    margin-bottom: var(--spacing-8);
+}
+
+.package-summary {
+    background: var(--color-gray-50);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--spacing-6);
+}
+
+.package-summary h2 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-4);
+}
+
+.package-details {
+    display: flex;
+    justify-content: space-around;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.detail .label {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+}
+
+.detail .value {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.current-balance {
+    background: #DBEAFE;
+    padding: var(--spacing-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-6);
+}
+
+.current-balance .label {
+    color: #1E40AF;
+}
+
+.current-balance .value {
+    font-weight: 700;
+    color: #1E40AF;
+}
+
+.simulation-actions form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.simulation-note {
+    margin-top: var(--spacing-6);
+    padding: var(--spacing-4);
+    background: #FEF3C7;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-sm);
+    color: #92400E;
+}
+</style>
+{% endblock %}

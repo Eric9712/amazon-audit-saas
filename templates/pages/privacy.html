@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+{% block title %}Politique de confidentialité - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="static-page legal-page">
+    <header class="page-header">
+        <h1>Politique de Confidentialité</h1>
+        <p class="last-update">Dernière mise à jour : 15 janvier 2026</p>
+    </header>
+    
+    <section class="legal-content">
+        <article>
+            <h2>1. Introduction</h2>
+            <p>Amazon Audit SaaS (ci-après « nous ») s'engage à protéger votre vie privée. Cette politique explique comment nous collectons, utilisons et protégeons vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD).</p>
+        </article>
+        
+        <article>
+            <h2>2. Responsable du traitement</h2>
+            <p><strong>Amazon Audit SaaS</strong> est responsable du traitement de vos données personnelles. Pour nous contacter, utilisez notre <a href="{% url 'messaging:new_conversation' %}">système de messagerie</a>.</p>
+        </article>
+        
+        <article>
+            <h2>3. Données collectées</h2>
+            
+            <h3>3.1 Données d'inscription</h3>
+            <ul>
+                <li>Email (obligatoire)</li>
+                <li>Nom et prénom (optionnel)</li>
+                <li>Nom de l'entreprise (optionnel)</li>
+                <li>Téléphone (optionnel)</li>
+            </ul>
+            
+            <h3>3.2 Données Amazon</h3>
+            <p>Avec votre consentement explicite via OAuth, nous accédons en <strong>lecture seule</strong> à :</p>
+            <ul>
+                <li>Seller ID et identifiants de marketplace</li>
+                <li>Rapports d'inventaire FBA</li>
+                <li>Historique des remboursements</li>
+                <li>Données de retours clients</li>
+                <li>Données d'expéditions entrantes</li>
+            </ul>
+            <p><strong>Important</strong> : Nous n'accédons pas à vos ventes, revenus, informations clients, ou données bancaires Amazon.</p>
+            
+            <h3>3.3 Données techniques</h3>
+            <ul>
+                <li>Adresse IP et géolocalisation approximative</li>
+                <li>Type de navigateur et appareil</li>
+                <li>Pages visitées et actions effectuées</li>
+                <li>Historique de connexion</li>
+            </ul>
+            
+            <h3>3.4 Données de paiement</h3>
+            <p>Les paiements sont traités par Stripe. Nous ne stockons jamais vos numéros de carte. Nous conservons uniquement les références de transaction.</p>
+        </article>
+        
+        <article>
+            <h2>4. Finalités du traitement</h2>
+            <table>
+                <tr>
+                    <th>Finalité</th>
+                    <th>Base légale</th>
+                    <th>Durée</th>
+                </tr>
+                <tr>
+                    <td>Gestion de compte</td>
+                    <td>Contrat</td>
+                    <td>Durée du compte + 3 ans</td>
+                </tr>
+                <tr>
+                    <td>Analyse des données Amazon</td>
+                    <td>Consentement</td>
+                    <td>Durée de la connexion</td>
+                </tr>
+                <tr>
+                    <td>Traitement des paiements</td>
+                    <td>Contrat</td>
+                    <td>10 ans (obligation légale)</td>
+                </tr>
+                <tr>
+                    <td>Emails transactionnels</td>
+                    <td>Contrat</td>
+                    <td>Durée du compte</td>
+                </tr>
+                <tr>
+                    <td>Amélioration du service</td>
+                    <td>Intérêt légitime</td>
+                    <td>26 mois (analytics)</td>
+                </tr>
+                <tr>
+                    <td>Sécurité</td>
+                    <td>Intérêt légitime</td>
+                    <td>12 mois</td>
+                </tr>
+            </table>
+        </article>
+        
+        <article>
+            <h2>5. Partage des données</h2>
+            <p>Nous ne vendons jamais vos données. Nous les partageons uniquement avec :</p>
+            <ul>
+                <li><strong>Stripe</strong> : Traitement des paiements (UE/US, certifié Privacy Shield)</li>
+                <li><strong>Amazon</strong> : Via leur API officielle pour l'audit</li>
+                <li><strong>Hébergeur</strong> : Infrastructure sécurisée en Union Européenne</li>
+                <li><strong>Autorités</strong> : Si requis par la loi</li>
+            </ul>
+        </article>
+        
+        <article>
+            <h2>6. Sécurité</h2>
+            <p>Nous mettons en œuvre des mesures de sécurité strictes :</p>
+            <ul>
+                <li>🔒 Chiffrement SSL/TLS sur toutes les communications</li>
+                <li>🔐 Chiffrement des données sensibles au repos (AES-256)</li>
+                <li>🔑 Tokens Amazon stockés de manière sécurisée et chiffrée</li>
+                <li>🛡️ Protection contre les attaques (SQL injection, XSS, CSRF)</li>
+                <li>📋 Journalisation des accès et actions</li>
+                <li>🔄 Sauvegardes régulières et chiffrées</li>
+            </ul>
+        </article>
+        
+        <article>
+            <h2>7. Vos droits (RGPD)</h2>
+            <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+            <ul>
+                <li><strong>Accès</strong> : Obtenir une copie de vos données</li>
+                <li><strong>Rectification</strong> : Corriger vos données inexactes</li>
+                <li><strong>Effacement</strong> : Supprimer vos données ("droit à l'oubli")</li>
+                <li><strong>Portabilité</strong> : Recevoir vos données dans un format structuré</li>
+                <li><strong>Opposition</strong> : Vous opposer au traitement basé sur l'intérêt légitime</li>
+                <li><strong>Limitation</strong> : Limiter temporairement le traitement</li>
+                <li><strong>Retrait du consentement</strong> : Révoquer l'accès à Amazon à tout moment</li>
+            </ul>
+            <p>Pour exercer vos droits, contactez-nous via notre <a href="{% url 'messaging:new_conversation' %}">système de messagerie</a>.</p>
+            <p>Délai de réponse : 30 jours maximum</p>
+        </article>
+        
+        <article>
+            <h2>8. Cookies</h2>
+            <p>Nous utilisons des cookies strictement nécessaires au fonctionnement :</p>
+            <ul>
+                <li><strong>Session</strong> : Maintien de votre connexion (expire à la fermeture)</li>
+                <li><strong>CSRF</strong> : Protection contre les attaques (expire à la fermeture)</li>
+                <li><strong>Préférences</strong> : Langue, thème (1 an)</li>
+            </ul>
+            <p>Nous n'utilisons pas de cookies publicitaires ou de tracking tiers.</p>
+        </article>
+        
+        <article>
+            <h2>9. Transferts internationaux</h2>
+            <p>Vos données sont principalement stockées en Union Européenne. En cas de transfert vers les États-Unis (Stripe), nous nous assurons que le prestataire dispose de garanties appropriées (Clauses Contractuelles Types).</p>
+        </article>
+        
+        <article>
+            <h2>10. Mineurs</h2>
+            <p>Notre service n'est pas destiné aux personnes de moins de 18 ans. Nous ne collectons pas sciemment de données de mineurs.</p>
+        </article>
+        
+        <article>
+            <h2>11. Modifications</h2>
+            <p>Nous pouvons modifier cette politique. En cas de changement significatif, vous serez informé par email au moins 30 jours avant l'entrée en vigueur.</p>
+        </article>
+        
+        <article>
+            <h2>12. Contact & Réclamations</h2>
+            <p>Pour toute question relative à vos données personnelles, contactez-nous via notre <a href="{% url 'messaging:new_conversation' %}">système de messagerie</a>.</p>
+            <p>En cas de litige non résolu, vous pouvez saisir la CNIL : <a href="https://www.cnil.fr" target="_blank">www.cnil.fr</a></p>
+        </article>
+    </section>
+</div>
+
+<style>
+.legal-page {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.last-update {
+    color: var(--color-gray-500);
+    font-size: var(--font-size-sm);
+}
+
+.legal-content article {
+    background: var(--color-white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-4);
+    box-shadow: var(--shadow-sm);
+}
+
+.legal-content h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-4);
+    color: var(--color-gray-900);
+}
+
+.legal-content h3 {
+    font-size: var(--font-size-base);
+    margin: var(--spacing-4) 0 var(--spacing-2);
+    color: var(--color-gray-800);
+}
+
+.legal-content p {
+    color: var(--color-gray-700);
+    line-height: 1.7;
+}
+
+.legal-content ul {
+    color: var(--color-gray-700);
+    padding-left: var(--spacing-6);
+    line-height: 1.7;
+}
+
+.legal-content li {
+    margin-bottom: var(--spacing-2);
+}
+
+.legal-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-4) 0;
+    font-size: var(--font-size-sm);
+}
+
+.legal-content th,
+.legal-content td {
+    border: 1px solid var(--color-gray-200);
+    padding: var(--spacing-3);
+    text-align: left;
+}
+
+.legal-content th {
+    background: var(--color-gray-100);
+    font-weight: 600;
+}
+</style>
+{% endblock %}

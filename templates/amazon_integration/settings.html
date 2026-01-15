@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Paramètres Amazon - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="settings-page">
+    <header class="settings-header">
+        <h1>Paramètres Amazon</h1>
+    </header>
+    
+    <div class="card">
+        {% if seller_profile.is_amazon_connected %}
+        <div class="connection-status success">
+            <span class="status-icon">✅</span>
+            <div class="status-info">
+                <h3>Compte Amazon connecté</h3>
+                <p>Seller ID: {{ seller_profile.amazon_seller_id }}</p>
+            </div>
+        </div>
+        
+        <div class="connection-details">
+            <h4>Détails de la connexion</h4>
+            <dl class="details-list">
+                <dt>Connecté le</dt>
+                <dd>{{ seller_profile.amazon_connected_at|date:"d/m/Y H:i" }}</dd>
+                
+                <dt>Marketplaces</dt>
+                <dd>
+                    {% for mp_id in seller_profile.amazon_marketplace_ids %}
+                    <span class="marketplace-badge">{{ mp_id }}</span>
+                    {% empty %}
+                    -
+                    {% endfor %}
+                </dd>
+                
+                <dt>Token expire le</dt>
+                <dd>{{ seller_profile.amazon_token_expires_at|date:"d/m/Y H:i"|default:"N/A" }}</dd>
+            </dl>
+        </div>
+        
+        <div class="connection-actions">
+            <form method="post" action="{% url 'amazon_integration:disconnect' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary" 
+                        onclick="return confirm('Êtes-vous sûr? Cela supprimera toutes les données de connexion.')">
+                    Déconnecter le compte Amazon
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <div class="connection-status warning">
+            <span class="status-icon">⚠️</span>
+            <div class="status-info">
+                <h3>Compte Amazon non connecté</h3>
+                <p>Connectez votre compte pour lancer un audit</p>
+            </div>
+        </div>
+        
+        <div class="connection-actions">
+            <a href="{% url 'amazon_integration:initiate_auth' %}" class="btn btn-primary btn-lg">
+                Connecter mon compte Amazon
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="card">
+        <h3>À propos de la connexion</h3>
+        <ul class="info-list">
+            <li><strong>Sécurité:</strong> Nous utilisons OAuth2, le protocole officiel d'Amazon. Vos identifiants ne transitent jamais par nos serveurs.</li>
+            <li><strong>Permissions:</strong> Nous demandons uniquement l'accès en lecture aux rapports FBA. Nous ne pouvons pas modifier votre compte.</li>
+            <li><strong>Révocation:</strong> Vous pouvez déconnecter votre compte à tout moment.</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+.settings-page {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.settings-header {
+    margin-bottom: var(--spacing-6);
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-6);
+}
+
+.connection-status.success {
+    background: #D1FAE5;
+}
+
+.connection-status.warning {
+    background: #FEF3C7;
+}
+
+.status-icon {
+    font-size: 2rem;
+}
+
+.status-info h3 {
+    margin-bottom: var(--spacing-1);
+}
+
+.status-info p {
+    color: var(--color-gray-600);
+    margin: 0;
+}
+
+.connection-details {
+    padding: var(--spacing-6);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-6);
+}
+
+.details-list dt {
+    font-weight: 500;
+    color: var(--color-gray-500);
+    font-size: var(--font-size-sm);
+}
+
+.details-list dd {
+    margin: 0 0 var(--spacing-4) 0;
+}
+
+.marketplace-badge {
+    display: inline-block;
+    background: var(--color-gray-200);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    margin-right: var(--spacing-1);
+}
+
+.connection-actions {
+    text-align: center;
+}
+
+.info-list {
+    padding-left: var(--spacing-6);
+}
+
+.info-list li {
+    margin-bottom: var(--spacing-3);
+}
+</style>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Connecter Amazon - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="connect-page">
+    <div class="connect-card">
+        <div class="connect-header">
+            <h1>🔗 Connectez votre compte Amazon</h1>
+            <p>Autorisez l'accès en lecture seule à votre compte Seller Central pour lancer l'audit.</p>
+        </div>
+        
+        <div class="connect-features">
+            <div class="feature">
+                <span class="feature-icon">🔒</span>
+                <div>
+                    <h4>100% Sécurisé</h4>
+                    <p>Connexion OAuth officielle d'Amazon. Vos identifiants ne transitent jamais par nos serveurs.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">👁️</span>
+                <div>
+                    <h4>Lecture seule</h4>
+                    <p>Nous ne pouvons pas modifier quoi que ce soit sur votre compte. Uniquement consulter les rapports.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🔄</span>
+                <div>
+                    <h4>Révocable</h4>
+                    <p>Vous pouvez déconnecter votre compte à tout moment depuis votre profil.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="connect-action">
+            <a href="{% url 'amazon_integration:initiate_auth' %}" class="btn btn-amazon btn-lg">
+                <img src="https://images.letsboost.io/amazon-logo.svg" alt="Amazon" class="amazon-logo">
+                Connecter avec Amazon
+            </a>
+            <p class="connect-note">
+                En vous connectant, vous acceptez nos 
+                <a href="#">conditions d'utilisation</a> et 
+                <a href="#">politique de confidentialité</a>.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

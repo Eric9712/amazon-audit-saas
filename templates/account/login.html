@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Connexion - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Connexion</h1>
+            <p>Accédez à votre compte Amazon Audit</p>
+        </div>
+        
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div class="form-errors">
+                {% for error in form.non_field_errors %}
+                <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="id_login">Email</label>
+                <input type="email" name="login" id="id_login" 
+                       class="form-input {% if form.login.errors %}error{% endif %}"
+                       placeholder="votre@email.com" required>
+                {% if form.login.errors %}
+                <span class="field-error">{{ form.login.errors.0 }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password">Mot de passe</label>
+                <input type="password" name="password" id="id_password" 
+                       class="form-input {% if form.password.errors %}error{% endif %}"
+                       placeholder="••••••••" required>
+                {% if form.password.errors %}
+                <span class="field-error">{{ form.password.errors.0 }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="form-group form-checkbox">
+                <input type="checkbox" name="remember" id="id_remember">
+                <label for="id_remember">Se souvenir de moi</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg btn-full">
+                Se connecter
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>
+                <a href="{% url 'account_reset_password' %}">Mot de passe oublié?</a>
+            </p>
+            <p>
+                Pas encore de compte? 
+                <a href="{% url 'account_signup' %}">Créer un compte</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: var(--spacing-8);
+}
+
+.auth-card {
+    background: var(--color-white);
+    padding: var(--spacing-10);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 420px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.auth-header h1 {
+    margin-bottom: var(--spacing-2);
+}
+
+.auth-header p {
+    color: var(--color-gray-500);
+    margin: 0;
+}
+
+.auth-form {
+    margin-bottom: var(--spacing-6);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-5);
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: var(--spacing-2);
+    color: var(--color-gray-700);
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    transition: border-color var(--transition-fast);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.form-input.error {
+    border-color: var(--color-danger);
+}
+
+.field-error {
+    color: var(--color-danger);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-1);
+    display: block;
+}
+
+.form-errors {
+    background: #FEE2E2;
+    padding: var(--spacing-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-4);
+}
+
+.form-errors .error {
+    color: #991B1B;
+    margin: 0;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.form-checkbox label {
+    margin: 0;
+    font-weight: 400;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.auth-footer {
+    text-align: center;
+}
+
+.auth-footer p {
+    margin-bottom: var(--spacing-2);
+    color: var(--color-gray-500);
+}
+</style>
+{% endblock %}

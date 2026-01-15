@@ -1,0 +1,157 @@
+﻿DEBUG: APP_ID from env: 'amzn1.sellerapps.app.replace-me'
+DEBUG: AMAZON_SP_API_SETTINGS: {'lwa_app_id': 'amzn1.sellerapps.app.replace-me', 'lwa_client_secret': 'replace-me', 'access_key': 'replace-me', 'secret_key': 'replace-me', 'role_arn': 'replace-me'}
+============================================================
+.\venv\Scripts\python.exe : 
+Traceback (most recent call 
+last):
+Au caractère Ligne:1 : 1
++ .\venv\Scripts\python.exe 
+run_audit_debug.py 2>&1 | 
+Out-File -FilePat ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (Trace  
+  back (most recent call    
+ last)::String) [], Remo    
+teException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement 
+amazon\run_audit_debug.py", 
+line 8, in <module>
+    django.setup()
+    ~~~~~~~~~~~~^^
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\venv\Li
+b\site-packages\django\__ini
+t__.py", line 19, in setup
+    configure_logging(settin
+gs.LOGGING_CONFIG, 
+settings.LOGGING)
+                      
+^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\venv\Li
+b\site-packages\django\conf\
+__init__.py", line 102, in 
+__getattr__
+    self._setup(name)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\venv\Li
+b\site-packages\django\conf\
+__init__.py", line 89, in 
+_setup
+    self._wrapped = 
+Settings(settings_module)
+                    
+~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\venv\Li
+b\site-packages\django\conf\
+__init__.py", line 217, in 
+__init__
+    mod = importlib.import_m
+odule(self.SETTINGS_MODULE)
+  File "C:\Python314\Lib\imp
+ortlib\__init__.py", line 
+88, in import_module
+    return _bootstrap._gcd_i
+mport(name[level:], 
+package, level)
+           ~~~~~~~~~~~~~~~~~
+~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^
+  File "<frozen 
+importlib._bootstrap>", 
+line 1398, in _gcd_import
+  File "<frozen 
+importlib._bootstrap>", 
+line 1371, in _find_and_load
+  File "<frozen 
+importlib._bootstrap>", 
+line 1342, in 
+_find_and_load_unlocked
+  File "<frozen 
+importlib._bootstrap>", 
+line 938, in _load_unlocked
+  File "<frozen importlib._b
+ootstrap_external>", line 
+762, in exec_module
+  File "<frozen 
+importlib._bootstrap>", 
+line 491, in 
+_call_with_frames_removed
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\config\
+settings\development.py", 
+line 106, in <module>
+    print("\U0001f680 
+DEVELOPMENT MODE ACTIVE")
+    ~~~~~^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\venv\Li
+b\site-packages\colorama\ans
+itowin32.py", line 47, in 
+write
+    
+self.__convertor.write(text)
+    
+~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\venv\Li
+b\site-packages\colorama\ans
+itowin32.py", line 177, in 
+write
+    
+self.write_and_convert(text)
+    
+~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\venv\Li
+b\site-packages\colorama\ans
+itowin32.py", line 205, in 
+write_and_convert
+    
+self.write_plain_text(text, 
+cursor, len(text))
+    ~~~~~~~~~~~~~~~~~~~~~^^^
+^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Mes docs\google 
+antigrity\projets\saas 
+remboussement amazon\venv\Li
+b\site-packages\colorama\ans
+itowin32.py", line 210, in 
+write_plain_text
+    self.wrapped.write(text[
+start:end])
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+^^^^^^^^^^^
+  File "C:\Python314\Lib\enc
+odings\cp1252.py", line 19, 
+in encode
+    return codecs.charmap_en
+code(input,self.errors,encod
+ing_table)[0]
+           ~~~~~~~~~~~~~~~~~
+~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^
+UnicodeEncodeError: 
+'charmap' codec can't 
+encode character 
+'\U0001f680' in position 0: 
+character maps to 
+<undefined>

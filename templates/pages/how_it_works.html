@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Comment ça marche - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="static-page">
+    <header class="page-header">
+        <h1>Comment ça marche</h1>
+        <p>Récupérez votre argent perdu sur Amazon en 4 étapes simples</p>
+    </header>
+    
+    <section class="steps-section">
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h2>🔗 Connectez votre compte Amazon</h2>
+                <p>Utilisez la connexion officielle OAuth d'Amazon pour nous autoriser à accéder à vos données <strong>en lecture seule</strong>.</p>
+                <ul>
+                    <li>✓ Connexion 100% sécurisée via Amazon</li>
+                    <li>✓ Vos identifiants ne transitent jamais par nos serveurs</li>
+                    <li>✓ Accès révocable à tout moment</li>
+                    <li>✓ Aucune modification possible sur votre compte</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h2>🔍 Audit automatique de vos données</h2>
+                <p>Notre algorithme analyse <strong>18 mois d'historique</strong> pour identifier les anomalies et l'argent récupérable.</p>
+                <ul>
+                    <li>📦 <strong>Inventaire</strong> : Stocks perdus ou endommagés en entrepôt</li>
+                    <li>📥 <strong>Expéditions FBA</strong> : Écarts de quantité lors des réceptions</li>
+                    <li>🔄 <strong>Retours clients</strong> : Produits non réintégrés au stock</li>
+                    <li>💰 <strong>Remboursements</strong> : Transactions manquantes ou incomplètes</li>
+                </ul>
+                <p class="note">⏱️ Durée de l'audit : 5-10 minutes en moyenne</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h2>📋 Recevez vos dossiers de réclamation</h2>
+                <p>Pour chaque perte identifiée, nous générons un <strong>dossier complet</strong> avec toutes les preuves nécessaires.</p>
+                <ul>
+                    <li>📝 Texte de réclamation prêt à copier-coller</li>
+                    <li>📊 Liste détaillée des articles concernés</li>
+                    <li>🔢 Références Amazon (FNSKU, Transaction ID, etc.)</li>
+                    <li>📅 Dates et montants calculés</li>
+                </ul>
+                <p class="note">⚠️ Nous respectons la <strong>règle des 45 jours</strong> d'Amazon : seules les pertes de plus de 45 jours sont éligibles.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h2>💰 Soumettez et récupérez votre argent</h2>
+                <p>Copiez le texte du dossier et soumettez-le dans <strong>Amazon Seller Central</strong>.</p>
+                <ul>
+                    <li>📧 Allez dans Aide → Nous contacter</li>
+                    <li>📋 Collez le texte du dossier</li>
+                    <li>⏳ Amazon traite votre demande sous 7-14 jours</li>
+                    <li>💵 Remboursement crédité sur votre compte vendeur</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <h2>Prêt à récupérer votre argent ?</h2>
+        <p>L'audit est 100% gratuit. Vous ne payez que si vous décidez de télécharger un dossier.</p>
+        <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg">Commencer gratuitement</a>
+    </section>
+</div>
+
+<style>
+.static-page {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-12);
+}
+
+.page-header p {
+    color: var(--color-gray-600);
+    font-size: var(--font-size-xl);
+}
+
+.steps-section {
+    margin-bottom: var(--spacing-12);
+}
+
+.step {
+    display: flex;
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-8);
+    background: var(--color-white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.step-content h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-3);
+}
+
+.step-content ul {
+    padding-left: var(--spacing-4);
+    margin: var(--spacing-4) 0;
+}
+
+.step-content li {
+    margin-bottom: var(--spacing-2);
+}
+
+.note {
+    background: var(--color-gray-100);
+    padding: var(--spacing-3);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-4);
+}
+
+.cta-section {
+    text-align: center;
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+    padding: var(--spacing-10);
+    border-radius: var(--radius-2xl);
+    color: var(--color-secondary);
+}
+
+.cta-section h2 {
+    color: var(--color-secondary);
+}
+
+.cta-section .btn {
+    margin-top: var(--spacing-4);
+}
+</style>
+{% endblock %}

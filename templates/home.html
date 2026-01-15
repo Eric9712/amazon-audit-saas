@@ -1,0 +1,1219 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Amazon Audit - Récupérez jusqu'à 3% de votre chiffre d'affaires perdu{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ============================================
+   LANDING PAGE - PREMIUM DESIGN
+   ============================================ */
+
+/* Hero Section */
+.hero-landing {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0d0d1f 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 120px 20px 80px;
+}
+
+.hero-landing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 48, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(78, 205, 196, 0.15) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-text h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 24px;
+}
+
+.hero-text h1 .gradient-text {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7c45f 50%, #ffab40 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-text h1 .money-amount {
+    color: #4ecdc4;
+    font-weight: 900;
+}
+
+.hero-subtitle {
+    font-size: 1.35rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 540px;
+}
+
+.hero-badges {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+.hero-badge svg {
+    width: 18px;
+    height: 18px;
+    stroke: #4ecdc4;
+}
+
+.hero-cta-group {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.btn-hero-primary {
+    padding: 18px 40px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f0f23;
+    background: linear-gradient(135deg, #ff6b35 0%, #f7c45f 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 40px rgba(255, 107, 53, 0.4);
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 50px rgba(255, 107, 53, 0.5);
+}
+
+.btn-hero-secondary {
+    padding: 18px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.hero-trust {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+.trust-avatars {
+    display: flex;
+}
+
+.trust-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #0f0f23;
+    margin-left: -12px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.trust-avatar:first-child {
+    margin-left: 0;
+}
+
+/* Hero Stats Card */
+.hero-visual {
+    position: relative;
+}
+
+.stats-dashboard {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-dashboard::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(255, 107, 53, 0.1), transparent 30%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.stats-header h3 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(78, 205, 196, 0.2);
+    border-radius: 50px;
+    color: #4ecdc4;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: #4ecdc4;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.main-stat {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.main-stat-value {
+    font-size: 4.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.main-stat-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+}
+
+.stats-grid-mini {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.mini-stat {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+}
+
+.mini-stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.mini-stat-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Problem Section */
+.problem-section {
+    padding: 120px 20px;
+    background: #ffffff;
+}
+
+.problem-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: 50px;
+    color: #ff6b35;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.problem-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #1a1a3e;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    max-width: 800px;
+}
+
+.problem-subtitle {
+    font-size: 1.25rem;
+    color: #64748b;
+    line-height: 1.7;
+    max-width: 700px;
+    margin-bottom: 60px;
+}
+
+.problems-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.problem-card {
+    padding: 40px;
+    background: #f8fafc;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.problem-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.problem-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+}
+
+.problem-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a3e;
+    margin-bottom: 12px;
+}
+
+.problem-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.problem-stat {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+}
+
+.problem-stat strong {
+    color: #ef4444;
+    font-size: 1.5rem;
+}
+
+/* Solution Section */
+.solution-section {
+    padding: 120px 20px;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.solution-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.solution-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.solution-content .section-label {
+    background: rgba(78, 205, 196, 0.1);
+    color: #059669;
+}
+
+.solution-title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #1a1a3e;
+    line-height: 1.2;
+    margin-bottom: 24px;
+}
+
+.solution-features {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.solution-feature {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.feature-check {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.feature-check svg {
+    width: 16px;
+    height: 16px;
+    stroke: white;
+    stroke-width: 3;
+}
+
+.solution-feature h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a3e;
+    margin-bottom: 4px;
+}
+
+.solution-feature p {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+/* Process Section */
+.process-section {
+    padding: 120px 20px;
+    background: #0f0f23;
+}
+
+.process-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.process-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.process-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 80px;
+}
+
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    position: relative;
+}
+
+.process-steps::before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.process-step {
+    position: relative;
+    z-index: 1;
+}
+
+.step-number {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #ff6b35, #f7c45f);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f0f23;
+    margin: 0 auto 24px;
+    box-shadow: 0 10px 40px rgba(255, 107, 53, 0.4);
+}
+
+.step-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.process-step h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.process-step p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    padding: 120px 20px;
+    background: #ffffff;
+}
+
+.testimonials-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.testimonials-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #1a1a3e;
+    margin-bottom: 60px;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.testimonial-card {
+    padding: 40px;
+    background: #f8fafc;
+    border-radius: 24px;
+    text-align: left;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.testimonial-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+.testimonial-stars span {
+    font-size: 1.3rem;
+}
+
+.testimonial-amount {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #059669;
+    margin-bottom: 16px;
+}
+
+.testimonial-text {
+    font-size: 1.1rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.author-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.author-info h4 {
+    font-weight: 600;
+    color: #1a1a3e;
+    margin-bottom: 4px;
+}
+
+.author-info p {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* Pricing Section */
+.pricing-section {
+    padding: 120px 20px;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+}
+
+.pricing-container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pricing-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.pricing-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 60px;
+}
+
+.pricing-card-main {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-card-main::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.2), transparent 70%);
+}
+
+.pricing-highlight {
+    display: inline-flex;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #ff6b35, #f7c45f);
+    border-radius: 50px;
+    color: #0f0f23;
+    font-weight: 700;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-main-text {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-price {
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.price-big {
+    font-size: 5rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.price-currency {
+    font-size: 2.5rem;
+    vertical-align: super;
+}
+
+.price-detail {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 10px;
+}
+
+.pricing-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-feature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.pricing-feature svg {
+    width: 20px;
+    height: 20px;
+    stroke: #4ecdc4;
+}
+
+.btn-pricing {
+    padding: 20px 60px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0f0f23;
+    background: linear-gradient(135deg, #ff6b35 0%, #f7c45f 100%);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 40px rgba(255, 107, 53, 0.4);
+    position: relative;
+    z-index: 1;
+}
+
+.btn-pricing:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 50px rgba(255, 107, 53, 0.5);
+}
+
+/* Final CTA */
+.final-cta {
+    padding: 120px 20px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.cta-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #1a1a3e;
+    margin-bottom: 24px;
+}
+
+.cta-subtitle {
+    font-size: 1.25rem;
+    color: #64748b;
+    margin-bottom: 40px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+    
+    .solution-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .process-steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .process-steps::before {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-landing {
+        padding: 100px 20px 60px;
+    }
+    
+    .stats-grid-mini {
+        grid-template-columns: 1fr;
+    }
+    
+    .process-steps {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-cta-group {
+        flex-direction: column;
+    }
+    
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-landing">
+    <div class="hero-grid">
+        <div class="hero-text">
+            <h1>
+                Amazon vous doit de l'argent.<br>
+                <span class="gradient-text">Récupérez-le.</span>
+            </h1>
+            <p class="hero-subtitle">
+                Chaque vendeur FBA perd en moyenne <strong>1 à 3% de son chiffre d'affaires</strong> 
+                en remboursements non réclamés. Notre audit automatique identifie tout ce qu'Amazon vous doit.
+            </p>
+            
+            <div class="hero-badges">
+                <span class="hero-badge">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                    </svg>
+                    Lecture seule
+                </span>
+                <span class="hero-badge">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Analyse en 5 min
+                </span>
+                <span class="hero-badge">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                    </svg>
+                    Sans carte bancaire
+                </span>
+            </div>
+            
+            <div class="hero-cta-group">
+                <a href="{% url 'account_signup' %}" class="btn-hero-primary">
+                    🚀 Lancer mon audit gratuit
+                </a>
+                <a href="{% url 'pages:how_it_works' %}" class="btn-hero-secondary">
+                    Comment ça marche →
+                </a>
+            </div>
+            
+            <div class="hero-trust">
+                <div class="trust-avatars">
+                    <span class="trust-avatar">M</span>
+                    <span class="trust-avatar">S</span>
+                    <span class="trust-avatar">L</span>
+                    <span class="trust-avatar">A</span>
+                    <span class="trust-avatar">+</span>
+                </div>
+                <span>Rejoint par <strong style="color: #fff;">2,847</strong> vendeurs FBA</span>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="stats-dashboard">
+                <div class="stats-header">
+                    <h3>💰 Récupéré ce mois</h3>
+                    <span class="live-badge">
+                        <span class="live-dot"></span>
+                        Live
+                    </span>
+                </div>
+                
+                <div class="main-stat">
+                    <div class="main-stat-value">€247,832</div>
+                    <div class="main-stat-label">Remboursements obtenus pour nos clients</div>
+                </div>
+                
+                <div class="stats-grid-mini">
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">1,284</div>
+                        <div class="mini-stat-label">Audits réalisés</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">€193</div>
+                        <div class="mini-stat-label">Moyenne / audit</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">97%</div>
+                        <div class="mini-stat-label">Taux de succès</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Problem Section -->
+<section class="problem-section">
+    <div class="problem-container">
+        <span class="section-label">❌ Le problème</span>
+        <h2 class="problem-title">Amazon fait des erreurs. Et vous payez pour ça.</h2>
+        <p class="problem-subtitle">
+            Avec des millions de colis traités chaque jour, Amazon perd, endommage 
+            et oublie de rembourser des milliers d'articles. La plupart des vendeurs 
+            ne le savent même pas.
+        </p>
+        
+        <div class="problems-grid">
+            <div class="problem-card">
+                <div class="problem-icon">📦</div>
+                <h3>Stocks perdus en entrepôt</h3>
+                <p>Des produits disparaissent dans les méandres du réseau logistique FBA sans jamais être retrouvés ni remboursés.</p>
+                <div class="problem-stat">
+                    En moyenne <strong>0.5%</strong> de l'inventaire
+                </div>
+            </div>
+            
+            <div class="problem-card">
+                <div class="problem-icon">💔</div>
+                <h3>Articles endommagés</h3>
+                <p>Amazon endommage vos produits lors de la manipulation et "oublie" de vous créditer le remboursement dû.</p>
+                <div class="problem-stat">
+                    Jusqu'à <strong>€500</strong> /mois oubliés
+                </div>
+            </div>
+            
+            <div class="problem-card">
+                <div class="problem-icon">↩️</div>
+                <h3>Retours non crédités</h3>
+                <p>Le client retourne l'article mais vous n'êtes jamais remboursé. Amazon garde l'argent.</p>
+                <div class="problem-stat">
+                    <strong>12%</strong> des retours concernés
+                </div>
+            </div>
+            
+            <div class="problem-card">
+                <div class="problem-icon">⚖️</div>
+                <h3>Frais FBA incorrects</h3>
+                <p>Amazon vous surfacture sur les dimensions ou le poids. Chaque erreur multipliée par des milliers de ventes.</p>
+                <div class="problem-stat">
+                    <strong>€2,000+</strong> /an en trop
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Solution Section -->
+<section class="solution-section">
+    <div class="solution-container">
+        <div class="solution-grid">
+            <div class="solution-content">
+                <span class="section-label">✅ La solution</span>
+                <h2 class="solution-title">On analyse. On détecte. Vous récupérez.</h2>
+                <p class="hero-subtitle" style="color: #64748b; margin-bottom: 0;">
+                    Notre algorithme analyse 18 mois d'historique Amazon et identifie 
+                    chaque euro que vous pouvez légitimement réclamer.
+                </p>
+                
+                <div class="solution-features">
+                    <div class="solution-feature">
+                        <span class="feature-check">
+                            <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </span>
+                        <div>
+                            <h4>Audit 100% gratuit</h4>
+                            <p>Découvrez combien Amazon vous doit sans rien payer.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-feature">
+                        <span class="feature-check">
+                            <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </span>
+                        <div>
+                            <h4>Dossiers prêts à soumettre</h4>
+                            <p>Réclamations formatées, preuves incluses. Copier-coller dans Seller Central.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-feature">
+                        <span class="feature-check">
+                            <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </span>
+                        <div>
+                            <h4>Conforme aux règles Amazon</h4>
+                            <p>Respect strict des 45 jours et de toutes les politiques FBA.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="solution-visual">
+                <!-- Placeholder for illustration -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="process-section">
+    <div class="process-container">
+        <h2 class="process-title">Comment ça marche</h2>
+        <p class="process-subtitle">4 étapes simples pour récupérer votre argent</p>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-icon">🔗</div>
+                <h3>Connectez Amazon</h3>
+                <p>Connexion sécurisée OAuth en lecture seule. Nous ne modifions rien.</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-icon">🔍</div>
+                <h3>Audit automatique</h3>
+                <p>Analyse de 18 mois de données FBA en quelques minutes.</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-icon">📋</div>
+                <h3>Récupérez les dossiers</h3>
+                <p>Téléchargez les réclamations prêtes avec toutes les preuves.</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-icon">💰</div>
+                <h3>Soyez remboursé</h3>
+                <p>Soumettez à Amazon et recevez votre argent sous 7-14 jours.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+    <div class="testimonials-container">
+        <h2 class="testimonials-title">Ils ont récupéré leur argent</h2>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                </div>
+                <div class="testimonial-amount">+€2,847</div>
+                <p class="testimonial-text">
+                    "Je ne savais même pas qu'Amazon me devait de l'argent. L'audit a trouvé 
+                    47 articles perdus que je n'avais jamais remarqués. Remboursé en 10 jours !"
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">M</div>
+                    <div class="author-info">
+                        <h4>Marie D.</h4>
+                        <p>Vendeuse FBA depuis 2021</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                </div>
+                <div class="testimonial-amount">+€5,234</div>
+                <p class="testimonial-text">
+                    "Les dossiers étaient parfaits. J'ai juste copié-collé dans Seller Central. 
+                    Amazon a accepté 94% de mes réclamations. Service incroyable."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">S</div>
+                    <div class="author-info">
+                        <h4>Sébastien L.</h4>
+                        <p>€150K CA annuel sur Amazon</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                </div>
+                <div class="testimonial-amount">+€1,456</div>
+                <p class="testimonial-text">
+                    "J'étais sceptique au début, mais l'audit gratuit m'a convaincu. 
+                    Pour 5€ le dossier, c'est rentabilisé x100. Je recommande à 100%."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">A</div>
+                    <div class="author-info">
+                        <h4>Antoine R.</h4>
+                        <p>Multi-marketplace EU</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="pricing-section">
+    <div class="pricing-container">
+        <h2 class="pricing-title">Tarification simple et transparente</h2>
+        <p class="pricing-subtitle">Payez uniquement si vous décidez de réclamer</p>
+        
+        <div class="pricing-card-main">
+            <span class="pricing-highlight">🎁 AUDIT 100% GRATUIT</span>
+            
+            <p class="pricing-main-text">
+                Découvrez combien Amazon vous doit.<br>Sans engagement, sans carte bancaire.
+            </p>
+            
+            <div class="pricing-price">
+                <span class="price-big"><span class="price-currency">€</span>5</span>
+                <p class="price-detail">par dossier de réclamation téléchargé</p>
+            </div>
+            
+            <div class="pricing-features-list">
+                <div class="pricing-feature">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Audit complet de 18 mois inclus
+                </div>
+                <div class="pricing-feature">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Réclamations prêtes à soumettre
+                </div>
+                <div class="pricing-feature">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Support prioritaire inclus
+                </div>
+                <div class="pricing-feature">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Packs crédits avec réduction jusqu'à -40%
+                </div>
+            </div>
+            
+            <a href="{% url 'account_signup' %}" class="btn-pricing">
+                🚀 Commencer mon audit gratuit
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+    <div class="cta-container">
+        <h2 class="cta-title">Prêt à récupérer votre argent ?</h2>
+        <p class="cta-subtitle">
+            Rejoignez les milliers de vendeurs FBA qui ont déjà récupéré leur dû. 
+            L'audit est gratuit, vous n'avez rien à perdre.
+        </p>
+        <a href="{% url 'account_signup' %}" class="btn-hero-primary">
+            🚀 Lancer mon audit gratuit maintenant
+        </a>
+    </div>
+</section>
+{% endblock %}

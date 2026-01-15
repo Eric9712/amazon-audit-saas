@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}Nous contacter - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    <header class="page-header">
+        <a href="{% url 'messaging:inbox' %}" class="back-link">← Retour à la messagerie</a>
+        <h1>✉️ Nouveau message</h1>
+        <p>Notre équipe vous répondra dans les plus brefs délais.</p>
+    </header>
+    
+    <div class="contact-form-container">
+        <form method="post" class="contact-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="category">Catégorie</label>
+                <select name="category" id="category" required>
+                    {% for value, label in categories %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="subject">Sujet</label>
+                <input type="text" name="subject" id="subject" required 
+                       placeholder="Résumez votre demande en quelques mots">
+            </div>
+            
+            <div class="form-group">
+                <label for="content">Votre message</label>
+                <textarea name="content" id="content" required rows="8"
+                          placeholder="Décrivez votre demande en détail..."></textarea>
+            </div>
+            
+            <div class="form-actions">
+                <a href="{% url 'messaging:inbox' %}" class="btn btn-secondary">Annuler</a>
+                <button type="submit" class="btn btn-primary">
+                    📤 Envoyer le message
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="info-cards">
+        <div class="info-card">
+            <span class="icon">⏱️</span>
+            <h3>Délai de réponse</h3>
+            <p>Nous répondons généralement sous 24h ouvrées.</p>
+        </div>
+        <div class="info-card">
+            <span class="icon">🔒</span>
+            <h3>Confidentialité</h3>
+            <p>Vos messages sont privés et sécurisés.</p>
+        </div>
+        <div class="info-card">
+            <span class="icon">📬</span>
+            <h3>Notification</h3>
+            <p>Vous serez notifié dès que nous répondrons.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.contact-page {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: var(--spacing-8);
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--color-gray-600);
+    text-decoration: none;
+    margin-bottom: var(--spacing-4);
+    font-size: var(--font-size-sm);
+}
+
+.back-link:hover {
+    color: var(--color-primary);
+}
+
+.page-header h1 {
+    margin-bottom: var(--spacing-2);
+}
+
+.page-header p {
+    color: var(--color-gray-600);
+    margin: 0;
+}
+
+.contact-form-container {
+    background: var(--color-white);
+    padding: var(--spacing-8);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--spacing-8);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-5);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--color-gray-700);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: var(--spacing-3) var(--spacing-4);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-2);
+}
+
+.info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.info-card {
+    background: var(--color-white);
+    padding: var(--spacing-5);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+
+.info-card .icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--spacing-2);
+}
+
+.info-card h3 {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-1);
+}
+
+.info-card p {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    margin: 0;
+}
+</style>
+{% endblock %}

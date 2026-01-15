@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Paiement réussi - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="success-page">
+    <div class="success-card">
+        <div class="success-icon">✅</div>
+        <h1>Paiement réussi!</h1>
+        <p>Vos crédits ont été ajoutés à votre compte.</p>
+        
+        <div class="success-actions">
+            <a href="{% url 'dashboard:home' %}" class="btn btn-primary btn-lg">
+                Retour au dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.success-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.success-card {
+    background: var(--color-white);
+    padding: var(--spacing-12);
+    border-radius: var(--radius-2xl);
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+    max-width: 500px;
+}
+
+.success-icon {
+    font-size: 5rem;
+    margin-bottom: var(--spacing-6);
+}
+
+.success-card h1 {
+    margin-bottom: var(--spacing-4);
+    color: var(--color-accent);
+}
+
+.success-card p {
+    color: var(--color-gray-600);
+    margin-bottom: var(--spacing-8);
+}
+</style>
+{% endblock %}

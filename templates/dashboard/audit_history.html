@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}Historique des audits - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="history-page">
+    <header class="history-header">
+        <h1>Historique des audits</h1>
+        <a href="{% url 'audit_engine:start_audit' %}" class="btn btn-primary">
+            Lancer un nouvel audit
+        </a>
+    </header>
+    
+    {% if audits %}
+    <div class="audits-list">
+        {% for audit in audits %}
+        <div class="audit-card">
+            <div class="audit-main">
+                <div class="audit-info">
+                    <h3>{{ audit.reference_code }}</h3>
+                    <p class="audit-date">
+                        {{ audit.created_at|date:"d/m/Y H:i" }}
+                    </p>
+                    <p class="audit-period">
+                        Période: {{ audit.start_date|date:"d/m/Y" }} - {{ audit.end_date|date:"d/m/Y" }}
+                    </p>
+                </div>
+                
+                <div class="audit-status">
+                    <span class="status-badge status-{{ audit.status }}">
+                        {{ audit.get_status_display }}
+                    </span>
+                </div>
+            </div>
+            
+            {% if audit.status == 'completed' %}
+            <div class="audit-results">
+                <div class="result-item">
+                    <span class="result-value">{{ audit.total_losses_detected }}</span>
+                    <span class="result-label">Pertes</span>
+                </div>
+                <div class="result-item highlight">
+                    <span class="result-value">€{{ audit.total_claimable|floatformat:0 }}</span>
+                    <span class="result-label">Réclamable</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-value">{{ audit.claim_cases.count }}</span>
+                    <span class="result-label">Dossiers</span>
+                </div>
+            </div>
+            <div class="audit-actions">
+                <a href="{% url 'audit_engine:audit_results' audit.pk %}" class="btn btn-primary">
+                    Voir les résultats
+                </a>
+            </div>
+            {% elif audit.is_running %}
+            <div class="audit-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ audit.progress_percentage }}%"></div>
+                </div>
+                <span>{{ audit.progress_percentage }}% - {{ audit.current_step }}</span>
+            </div>
+            <div class="audit-actions">
+                <a href="{% url 'dashboard:audit_status' audit.pk %}" class="btn btn-secondary">
+                    Voir le statut
+                </a>
+            </div>
+            {% elif audit.status == 'failed' %}
+            <div class="audit-error">
+                <p>{{ audit.error_message|truncatewords:20 }}</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card no-audits">
+        <p>Vous n'avez pas encore lancé d'audit.</p>
+        <a href="{% url 'audit_engine:start_audit' %}" class="btn btn-primary btn-lg">
+            Lancer mon premier audit
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.history-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.audits-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.audit-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    box-shadow: var(--shadow-md);
+}
+
+.audit-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-4);
+}
+
+.audit-info h3 {
+    margin-bottom: var(--spacing-1);
+}
+
+.audit-date, .audit-period {
+    color: var(--color-gray-500);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.status-badge {
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.status-completed { background: #D1FAE5; color: #065F46; }
+.status-pending, .status-fetching, .status-processing { background: #DBEAFE; color: #1E40AF; }
+.status-failed { background: #FEE2E2; color: #991B1B; }
+
+.audit-results {
+    display: flex;
+    gap: var(--spacing-8);
+    padding: var(--spacing-4) 0;
+    border-top: 1px solid var(--color-gray-200);
+    margin-bottom: var(--spacing-4);
+}
+
+.result-item {
+    text-align: center;
+}
+
+.result-value {
+    display: block;
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.result-item.highlight .result-value {
+    color: var(--color-primary);
+}
+
+.result-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+}
+
+.audit-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4) 0;
+}
+
+.audit-progress .progress-bar {
+    flex: 1;
+}
+
+.audit-error {
+    color: var(--color-danger);
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-4) 0;
+}
+
+.no-audits {
+    text-align: center;
+    padding: var(--spacing-12);
+}
+
+.no-audits p {
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-6);
+}
+</style>
+{% endblock %}

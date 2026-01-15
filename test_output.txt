@@ -1,0 +1,32 @@
+Chargement des fichiers...
+  Inventaire: 8 lignes
+  Retours: 9 lignes
+  Expeditions: 8 lignes
+
+[1] Analyse inventaire...
+    ANOMALIE: SKU-LOST-006 - 25 unites perdues (valeur: 749.75 EUR)
+
+[2] Analyse retours...
+    ANOMALIE: SKU-PHONE-001 - Retour non rembourse (Order: 111-0000008-0000008)
+    ANOMALIE: SKU-CABLE-002 - Retour non rembourse (Order: 111-0000009-0000009)
+
+[3] Analyse expeditions...
+    ANOMALIE: SKU-EARBUDS-005 - lost_in_transit (valeur: 69.98 EUR)
+    ANOMALIE: SKU-PHONE-001 - damaged_in_warehouse (valeur: 19.99 EUR)
+
+============================================================
+RESUME DES ANOMALIES DETECTEES
+============================================================
+Total: 5 anomalies
+Valeur totale reclamable: 899.72 EUR
+
+Detail:
+  1. [INVENTAIRE_PERDU] SKU-LOST-006 - Qte: 25 - Valeur: 749.75 EUR
+  2. [RETOUR_NON_REMBOURSE] SKU-PHONE-001 - Qte: 1 - Valeur: 15.00 EUR
+  3. [RETOUR_NON_REMBOURSE] SKU-CABLE-002 - Qte: 3 - Valeur: 45.00 EUR
+  4. [EXPEDITION_LOST_IN_TRANSIT] SKU-EARBUDS-005 - Qte: 1 - Valeur: 69.98 EUR
+  5. [EXPEDITION_DAMAGED_IN_WAREHOUSE] SKU-PHONE-001 - Qte: 1 - Valeur: 19.99 EUR
+
+============================================================
+>>> TEST REUSSI! Toutes les anomalies detectees.
+============================================================

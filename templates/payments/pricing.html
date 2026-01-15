@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}Tarifs - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="pricing-page">
+    <header class="pricing-header">
+        <h1>Tarification simple et transparente</h1>
+        <p>L'audit est 100% gratuit. Payez uniquement pour télécharger les dossiers de réclamation.</p>
+    </header>
+    
+    <div class="current-credits">
+        <span class="credits-label">Vos crédits actuels:</span>
+        <span class="credits-value">{{ current_credits }}</span>
+    </div>
+    
+    <div class="pricing-grid">
+        {% for package in packages %}
+        <div class="pricing-card {% if package.is_popular %}popular{% endif %}">
+            {% if package.is_popular %}
+            <span class="popular-badge">Plus populaire</span>
+            {% endif %}
+            
+            <h3 class="package-name">{{ package.name }}</h3>
+            
+            <div class="package-credits">
+                <span class="credits-number">{{ package.credits }}</span>
+                <span class="credits-text">crédits</span>
+            </div>
+            
+            <div class="package-price">
+                <span class="price-currency">€</span>
+                <span class="price-amount">{{ package.price|floatformat:0 }}</span>
+            </div>
+            
+            <p class="price-per-credit">
+                €{{ package.price_per_credit|floatformat:2 }} par dossier
+            </p>
+            
+            <ul class="package-features">
+                <li>✓ {{ package.credits }} dossiers téléchargeables</li>
+                <li>✓ Crédits sans expiration</li>
+                <li>✓ Support par email</li>
+            </ul>
+            
+            <a href="{% url 'payments:buy_credits' package.pk %}" class="btn {% if package.is_popular %}btn-primary{% else %}btn-secondary{% endif %} btn-lg">
+                Acheter
+            </a>
+        </div>
+        {% empty %}
+        <div class="no-packages">
+            <p>Aucun pack disponible pour le moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <section class="pricing-faq">
+        <h2>Questions fréquentes</h2>
+        
+        <div class="faq-item">
+            <h4>Comment fonctionnent les crédits?</h4>
+            <p>1 crédit = 1 dossier de réclamation téléchargeable. Chaque dossier contient toutes les preuves et le texte à copier-coller dans Amazon Seller Central.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h4>Quand dois-je payer?</h4>
+            <p>L'audit est gratuit. Vous payez uniquement si vous décidez de télécharger un dossier pour récupérer l'argent identifié.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h4>Les crédits expirent-ils?</h4>
+            <p>Non, vos crédits n'expirent jamais. Utilisez-les quand vous le souhaitez.</p>
+        </div>
+    </section>
+</div>
+
+<style>
+.pricing-page {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.current-credits {
+    text-align: center;
+    background: var(--color-gray-100);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-8);
+}
+
+.credits-label {
+    color: var(--color-gray-600);
+    margin-right: var(--spacing-2);
+}
+
+.credits-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-12);
+}
+
+.pricing-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-8);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    transition: transform var(--transition-normal);
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+}
+
+.pricing-card.popular {
+    border: 2px solid var(--color-primary);
+    transform: scale(1.05);
+}
+
+.pricing-card.popular:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: white;
+    padding: var(--spacing-1) var(--spacing-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.package-name {
+    margin-bottom: var(--spacing-4);
+}
+
+.package-credits {
+    margin-bottom: var(--spacing-4);
+}
+
+.credits-number {
+    font-size: var(--font-size-4xl);
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.credits-text {
+    display: block;
+    color: var(--color-gray-500);
+}
+
+.package-price {
+    margin-bottom: var(--spacing-2);
+}
+
+.price-currency {
+    font-size: var(--font-size-xl);
+    vertical-align: top;
+}
+
+.price-amount {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+}
+
+.price-per-credit {
+    color: var(--color-gray-500);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-6);
+}
+
+.package-features {
+    list-style: none;
+    margin-bottom: var(--spacing-6);
+    text-align: left;
+}
+
+.package-features li {
+    padding: var(--spacing-2) 0;
+    color: var(--color-gray-600);
+}
+
+.pricing-faq {
+    background: var(--color-white);
+    padding: var(--spacing-8);
+    border-radius: var(--radius-xl);
+}
+
+.pricing-faq h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.faq-item {
+    margin-bottom: var(--spacing-6);
+}
+
+.faq-item h4 {
+    margin-bottom: var(--spacing-2);
+}
+
+.faq-item p {
+    color: var(--color-gray-600);
+    margin: 0;
+}
+</style>
+{% endblock %}

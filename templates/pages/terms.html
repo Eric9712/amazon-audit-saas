@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Conditions d'utilisation - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="static-page legal-page">
+    <header class="page-header">
+        <h1>Conditions Générales d'Utilisation</h1>
+        <p class="last-update">Dernière mise à jour : 15 janvier 2026</p>
+    </header>
+    
+    <section class="legal-content">
+        <article>
+            <h2>1. Objet du Service</h2>
+            <p>Amazon Audit SaaS (ci-après « le Service ») est une plateforme d'analyse automatisée permettant aux vendeurs Amazon FBA d'identifier les écarts d'inventaire et pertes financières non remboursées par Amazon.</p>
+            <p>Le Service génère des dossiers de réclamation que l'utilisateur soumet manuellement à Amazon Seller Central.</p>
+        </article>
+        
+        <article>
+            <h2>2. Inscription et Compte</h2>
+            <ul>
+                <li>L'inscription est réservée aux personnes majeures disposant de la capacité juridique.</li>
+                <li>Vous devez fournir des informations exactes et les maintenir à jour.</li>
+                <li>Vous êtes responsable de la confidentialité de vos identifiants.</li>
+                <li>Un compte = un vendeur Amazon. Le partage de compte est interdit.</li>
+            </ul>
+        </article>
+        
+        <article>
+            <h2>3. Connexion Amazon</h2>
+            <ul>
+                <li>La connexion à votre compte Amazon se fait via OAuth2, le protocole officiel d'Amazon.</li>
+                <li>Nous accédons uniquement aux données en <strong>lecture seule</strong> : rapports d'inventaire, remboursements, retours, expéditions.</li>
+                <li>Nous ne pouvons pas effectuer d'actions sur votre compte (commandes, modifications, etc.).</li>
+                <li>Vous pouvez révoquer l'accès à tout moment depuis votre profil ou Amazon Seller Central.</li>
+            </ul>
+        </article>
+        
+        <article>
+            <h2>4. Tarification et Paiement</h2>
+            <ul>
+                <li><strong>Audit gratuit</strong> : L'analyse de vos données est entièrement gratuite.</li>
+                <li><strong>Dossiers payants</strong> : 1 crédit = 1 dossier de réclamation téléchargeable.</li>
+                <li>Les crédits sont prépayés et n'expirent pas.</li>
+                <li>Les paiements sont sécurisés par Stripe. Nous ne stockons pas vos données bancaires.</li>
+                <li>Les prix sont affichés TTC pour les particuliers et HT pour les professionnels.</li>
+            </ul>
+        </article>
+        
+        <article>
+            <h2>5. Utilisation des Dossiers</h2>
+            <ul>
+                <li>Chaque dossier est destiné à être soumis <strong>manuellement</strong> par vous dans Amazon Seller Central.</li>
+                <li>Vous êtes responsable de la soumission de vos réclamations à Amazon.</li>
+                <li>Nous ne garantissons pas l'acceptation des réclamations par Amazon.</li>
+                <li>Nous ne prenons aucune commission sur les remboursements obtenus.</li>
+            </ul>
+        </article>
+        
+        <article>
+            <h2>6. Propriété Intellectuelle</h2>
+            <p>Le Service, son code, son design et ses algorithmes sont la propriété exclusive d'Amazon Audit SaaS. Toute reproduction, copie ou utilisation non autorisée est interdite.</p>
+        </article>
+        
+        <article>
+            <h2>7. Responsabilité</h2>
+            <ul>
+                <li>Nous nous engageons à fournir un service de qualité mais ne garantissons pas l'absence d'erreurs.</li>
+                <li>Notre responsabilité est limitée au montant des crédits achetés.</li>
+                <li>Nous ne sommes pas responsables des décisions d'Amazon concernant vos réclamations.</li>
+                <li>Vous restez seul responsable de vos actions sur Amazon Seller Central.</li>
+            </ul>
+        </article>
+        
+        <article>
+            <h2>8. Données Personnelles</h2>
+            <p>Le traitement de vos données personnelles est régi par notre <a href="{% url 'pages:privacy' %}">Politique de Confidentialité</a>.</p>
+        </article>
+        
+        <article>
+            <h2>9. Modification des CGU</h2>
+            <p>Nous nous réservons le droit de modifier ces conditions. Les utilisateurs seront informés par email des modifications importantes. L'utilisation continue du Service après modification vaut acceptation.</p>
+        </article>
+        
+        <article>
+            <h2>10. Résiliation</h2>
+            <ul>
+                <li>Vous pouvez supprimer votre compte à tout moment depuis votre profil.</li>
+                <li>Les crédits non utilisés ne sont pas remboursés en cas de suppression de compte.</li>
+                <li>Nous nous réservons le droit de suspendre ou supprimer un compte en cas de violation des présentes CGU.</li>
+            </ul>
+        </article>
+        
+        <article>
+            <h2>11. Droit Applicable</h2>
+            <p>Les présentes CGU sont soumises au droit français. En cas de litige, les tribunaux de Paris seront seuls compétents.</p>
+        </article>
+        
+        <article>
+            <h2>12. Contact</h2>
+            <p>Pour toute question concernant ces conditions, veuillez nous contacter via notre <a href="{% url 'messaging:new_conversation' %}">système de messagerie</a>.</p>
+        </article>
+    </section>
+</div>
+
+<style>
+.legal-page {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.last-update {
+    color: var(--color-gray-500);
+    font-size: var(--font-size-sm);
+}
+
+.legal-content article {
+    background: var(--color-white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-4);
+    box-shadow: var(--shadow-sm);
+}
+
+.legal-content h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-4);
+    color: var(--color-gray-900);
+}
+
+.legal-content p {
+    color: var(--color-gray-700);
+    line-height: 1.7;
+}
+
+.legal-content ul {
+    color: var(--color-gray-700);
+    padding-left: var(--spacing-6);
+    line-height: 1.7;
+}
+
+.legal-content li {
+    margin-bottom: var(--spacing-2);
+}
+</style>
+{% endblock %}

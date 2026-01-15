@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+
+{% block title %}Tarifs - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="static-page">
+    <header class="page-header">
+        <h1>Tarification transparente</h1>
+        <p>Audit gratuit. Payez uniquement pour les dossiers que vous téléchargez.</p>
+    </header>
+    
+    <section class="pricing-model">
+        <div class="pricing-card main">
+            <h2>Modèle simple</h2>
+            <div class="price-highlight">
+                <span class="price">5€</span>
+                <span class="per">par dossier</span>
+            </div>
+            <p class="desc">Un dossier = une réclamation prête à soumettre à Amazon</p>
+        </div>
+    </section>
+    
+    <section class="whats-included">
+        <h2>Ce qui est inclus</h2>
+        
+        <div class="feature-grid">
+            <div class="feature">
+                <span class="icon">✅</span>
+                <h3>Audit 100% gratuit</h3>
+                <p>Analyse complète de 18 mois d'historique. Voyez tout ce qui est récupérable avant de payer quoi que ce soit.</p>
+            </div>
+            
+            <div class="feature">
+                <span class="icon">📋</span>
+                <h3>Dossier complet</h3>
+                <p>Chaque dossier contient le texte de réclamation, les preuves et toutes les références Amazon nécessaires.</p>
+            </div>
+            
+            <div class="feature">
+                <span class="icon">♾️</span>
+                <h3>Crédits sans expiration</h3>
+                <p>Achetez des crédits quand vous voulez, ils n'expirent jamais. Utilisez-les à votre rythme.</p>
+            </div>
+            
+            <div class="feature">
+                <span class="icon">🔄</span>
+                <h3>Audits illimités</h3>
+                <p>Relancez un audit quand vous voulez pour détecter de nouvelles pertes.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="packs-section">
+        <h2>Packs de crédits</h2>
+        
+        <div class="packs-grid">
+            <div class="pack">
+                <h3>Starter</h3>
+                <div class="pack-credits">5 crédits</div>
+                <div class="pack-price">20€</div>
+                <div class="pack-unit">4€/dossier</div>
+                <p>Idéal pour tester</p>
+            </div>
+            
+            <div class="pack popular">
+                <span class="badge">Populaire</span>
+                <h3>Pro</h3>
+                <div class="pack-credits">15 crédits</div>
+                <div class="pack-price">50€</div>
+                <div class="pack-unit">3,33€/dossier</div>
+                <p>Le meilleur rapport qualité-prix</p>
+            </div>
+            
+            <div class="pack">
+                <h3>Business</h3>
+                <div class="pack-credits">50 crédits</div>
+                <div class="pack-price">150€</div>
+                <div class="pack-unit">3€/dossier</div>
+                <p>Pour les gros vendeurs</p>
+            </div>
+        </div>
+    </section>
+    
+    
+    <section class="cta-section">
+        <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg">Commencer mon audit gratuit</a>
+    </section>
+</div>
+
+<style>
+.static-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-12);
+}
+
+.pricing-model {
+    text-align: center;
+    margin-bottom: var(--spacing-12);
+}
+
+.pricing-card.main {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: white;
+    padding: var(--spacing-10);
+    border-radius: var(--radius-2xl);
+    display: inline-block;
+}
+
+.pricing-card h2 {
+    color: white;
+    margin-bottom: var(--spacing-4);
+}
+
+.price-highlight {
+    margin-bottom: var(--spacing-4);
+}
+
+.price-highlight .price {
+    font-size: 4rem;
+    font-weight: 800;
+}
+
+.price-highlight .per {
+    display: block;
+    font-size: var(--font-size-lg);
+    opacity: 0.9;
+}
+
+.pricing-card .desc {
+    opacity: 0.9;
+    margin: 0;
+}
+
+.whats-included h2,
+.packs-section h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-12);
+}
+
+.feature {
+    background: var(--color-white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+}
+
+.feature .icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--spacing-3);
+}
+
+.feature h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-2);
+}
+
+.feature p {
+    color: var(--color-gray-600);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.packs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-12);
+}
+
+.pack {
+    background: var(--color-white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    position: relative;
+}
+
+.pack.popular {
+    border: 3px solid var(--color-primary);
+    transform: scale(1.05);
+}
+
+.pack .badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: white;
+    padding: var(--spacing-1) var(--spacing-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.pack-credits {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: var(--spacing-2) 0;
+}
+
+.pack-price {
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+}
+
+.pack-unit {
+    color: var(--color-gray-500);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-3);
+}
+
+.pack p {
+    color: var(--color-gray-600);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.guarantee {
+    background: #D1FAE5;
+    padding: var(--spacing-8);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.guarantee h2 {
+    color: #065F46;
+    margin-bottom: var(--spacing-3);
+}
+
+.guarantee p {
+    color: #065F46;
+    margin: 0;
+}
+
+.cta-section {
+    text-align: center;
+}
+</style>
+{% endblock %}

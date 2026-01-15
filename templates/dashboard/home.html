@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <header class="dashboard-header">
+        <h1>Tableau de bord</h1>
+        <p>Bienvenue, {{ user.get_short_name }}!</p>
+    </header>
+    
+    <!-- Status Cards -->
+    <div class="dashboard-cards">
+        <div class="card card-stat">
+            <div class="card-icon">💰</div>
+            <div class="card-content">
+                <span class="card-value">€{{ total_claimable|floatformat:2 }}</span>
+                <span class="card-label">Montant récupérable</span>
+            </div>
+        </div>
+        <div class="card card-stat">
+            <div class="card-icon">📦</div>
+            <div class="card-content">
+                <span class="card-value">{{ unpaid_cases|length }}</span>
+                <span class="card-label">Dossiers à télécharger</span>
+            </div>
+        </div>
+        <div class="card card-stat">
+            <div class="card-icon">🎫</div>
+            <div class="card-content">
+                <span class="card-value">{{ seller_profile.credits_balance }}</span>
+                <span class="card-label">Crédits disponibles</span>
+            </div>
+        </div>
+        <div class="card card-stat">
+            <div class="card-icon">📊</div>
+            <div class="card-content">
+                <span class="card-value">{{ seller_profile.total_audits_run }}</span>
+                <span class="card-label">Audits effectués</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Amazon Connection Status -->
+    {% if not seller_profile.is_amazon_connected %}
+    <div class="alert alert-warning">
+        <div class="alert-content">
+            <h3>🔗 Connectez votre compte Amazon</h3>
+            <p>Pour lancer un audit, vous devez d'abord connecter votre compte Seller Central.</p>
+            <a href="{% url 'dashboard:connect_amazon' %}" class="btn btn-primary">Connecter Amazon</a>
+        </div>
+    </div>
+    {% else %}
+    
+    <!-- Running Audit -->
+    {% if running_audit %}
+    <div class="card card-audit-running">
+        <h3>🔄 Audit en cours</h3>
+        <p>Référence: {{ running_audit.reference_code }}</p>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ running_audit.progress_percentage }}%"></div>
+        </div>
+        <p class="progress-text">{{ running_audit.progress_percentage }}% - {{ running_audit.current_step }}</p>
+        <a href="{% url 'dashboard:audit_status' running_audit.pk %}" class="btn btn-secondary">Voir le statut</a>
+    </div>
+    {% else %}
+    
+    <!-- Start New Audit -->
+    <div class="card card-action">
+        <h3>🚀 Lancer un nouvel audit</h3>
+        <p>Analysez vos données Amazon des 18 derniers mois pour détecter l'argent récupérable.</p>
+        <a href="{% url 'audit_engine:start_audit' %}" class="btn btn-primary btn-lg">Démarrer l'audit gratuit</a>
+    </div>
+    {% endif %}
+    {% endif %}
+    
+    <!-- Latest Results -->
+    {% if latest_audit %}
+    <div class="card">
+        <h3>📊 Dernier audit: {{ latest_audit.reference_code }}</h3>
+        <p>Terminé le {{ latest_audit.completed_at|date:"d/m/Y à H:i" }}</p>
+        <div class="audit-summary">
+            <div class="summary-item">
+                <span class="summary-value">{{ latest_audit.total_losses_detected }}</span>
+                <span class="summary-label">Pertes détectées</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-value">€{{ latest_audit.total_claimable|floatformat:2 }}</span>
+                <span class="summary-label">Récupérable</span>
+            </div>
+        </div>
+        <a href="{% url 'audit_engine:audit_results' latest_audit.pk %}" class="btn btn-primary">Voir les résultats</a>
+    </div>
+    {% endif %}
+    
+    <!-- Cases to Download -->
+    {% if unpaid_cases %}
+    <div class="card">
+        <h3>📋 Dossiers disponibles</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Type</th>
+                    <th>SKU</th>
+                    <th>Quantité</th>
+                    <th>Valeur</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for case in unpaid_cases %}
+                <tr>
+                    <td>{{ case.reference_code }}</td>
+                    <td>{{ case.get_loss_type_display }}</td>
+                    <td>{{ case.sku }}</td>
+                    <td>{{ case.total_quantity }}</td>
+                    <td>€{{ case.total_value|floatformat:2 }}</td>
+                    <td>
+                        <a href="{% url 'audit_engine:case_detail' case.pk %}" class="btn btn-sm btn-secondary">Voir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

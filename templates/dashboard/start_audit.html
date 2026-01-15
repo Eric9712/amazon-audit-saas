@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}Lancer un audit - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="start-audit-page">
+    <div class="start-audit-card">
+        <div class="card-header">
+            <h1>🚀 Lancer un audit</h1>
+            <p>Analysez vos données Amazon pour identifier l'argent récupérable</p>
+        </div>
+        
+        <div class="audit-info">
+            <div class="info-item">
+                <span class="info-icon">📅</span>
+                <div>
+                    <strong>Période analysée</strong>
+                    <p>{{ start_date|date:"d/m/Y" }} - {{ end_date|date:"d/m/Y" }} ({{ period_months }} mois)</p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-icon">📊</span>
+                <div>
+                    <strong>Données analysées</strong>
+                    <p>Inventaire, remboursements, retours, expéditions</p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-icon">⏱️</span>
+                <div>
+                    <strong>Durée estimée</strong>
+                    <p>5-10 minutes (vous recevrez un email)</p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-icon">💰</span>
+                <div>
+                    <strong>Coût</strong>
+                    <p>100% GRATUIT - L'audit est entièrement gratuit</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="audit-rules">
+            <h3>⚠️ Règles importantes</h3>
+            <ul>
+                <li><strong>Règle des 45 jours:</strong> Seules les pertes de plus de 45 jours sont analysées (règle Amazon)</li>
+                <li><strong>Lecture seule:</strong> Nous ne modifions rien sur votre compte Amazon</li>
+                <li><strong>Idempotence:</strong> Les pertes déjà détectées ne seront pas dupliquées</li>
+            </ul>
+        </div>
+        
+        <form method="post" class="start-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">
+                🔍 Démarrer l'audit gratuit
+            </button>
+            <p class="form-note">
+                En lançant l'audit, vous acceptez que nous accédions à vos données Amazon en lecture seule.
+            </p>
+        </form>
+    </div>
+</div>
+
+<style>
+.start-audit-page {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-8);
+}
+
+.start-audit-card {
+    background: var(--color-white);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-10);
+    box-shadow: var(--shadow-xl);
+    max-width: 600px;
+    width: 100%;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.card-header h1 {
+    margin-bottom: var(--spacing-2);
+}
+
+.card-header p {
+    color: var(--color-gray-500);
+    margin: 0;
+}
+
+.audit-info {
+    margin-bottom: var(--spacing-8);
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-3);
+}
+
+.info-icon {
+    font-size: 1.5rem;
+}
+
+.info-item strong {
+    display: block;
+    margin-bottom: var(--spacing-1);
+}
+
+.info-item p {
+    color: var(--color-gray-600);
+    margin: 0;
+    font-size: var(--font-size-sm);
+}
+
+.audit-rules {
+    background: #FEF3C7;
+    padding: var(--spacing-6);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-8);
+}
+
+.audit-rules h3 {
+    margin-bottom: var(--spacing-4);
+    font-size: var(--font-size-lg);
+}
+
+.audit-rules ul {
+    margin: 0;
+    padding-left: var(--spacing-6);
+}
+
+.audit-rules li {
+    margin-bottom: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-700);
+}
+
+.start-form {
+    text-align: center;
+}
+
+.start-form .btn {
+    width: 100%;
+    margin-bottom: var(--spacing-4);
+}
+
+.form-note {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+    margin: 0;
+}
+</style>
+{% endblock %}

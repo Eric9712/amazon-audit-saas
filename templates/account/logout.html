@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Déconnexion - Amazon Audit{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Déconnexion</h1>
+            <p>Êtes-vous sûr de vouloir vous déconnecter?</p>
+        </div>
+        
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg btn-full">
+                Se déconnecter
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <a href="{% url 'dashboard:home' %}">Retour au dashboard</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.auth-card {
+    background: var(--color-white);
+    padding: var(--spacing-10);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    max-width: 400px;
+    text-align: center;
+}
+
+.auth-header {
+    margin-bottom: var(--spacing-6);
+}
+
+.auth-header p {
+    color: var(--color-gray-500);
+}
+
+.auth-form {
+    margin-bottom: var(--spacing-6);
+}
+
+.btn-full {
+    width: 100%;
+}
+</style>
+{% endblock %}

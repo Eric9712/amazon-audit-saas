@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Votre audit Amazon est terminé!</title>
+</head>
+<body style="font-family: 'Inter', Arial, sans-serif; background: #f8fafc; padding: 40px 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: linear-gradient(135deg, #FF9900, #E88B00); padding: 40px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 28px;">🎉 Votre audit est terminé!</h1>
+        </div>
+        
+        <div style="padding: 40px;">
+            <p style="font-size: 18px; color: #334155;">Bonjour {{ user.get_short_name }},</p>
+            
+            <p style="color: #64748b;">Votre audit Amazon a été complété avec succès. Voici les résultats:</p>
+            
+            <div style="background: #f1f5f9; border-radius: 12px; padding: 24px; margin: 24px 0; text-align: center;">
+                <div style="font-size: 48px; font-weight: 800; color: #FF9900;">
+                    €{{ claimable_amount|floatformat:2 }}
+                </div>
+                <div style="color: #64748b; font-size: 14px; margin-top: 8px;">
+                    Montant récupérable identifié
+                </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-around; margin: 24px 0;">
+                <div style="text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: #334155;">{{ audit.total_losses_detected }}</div>
+                    <div style="color: #94a3b8; font-size: 12px;">Pertes détectées</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: #334155;">{{ cases_count }}</div>
+                    <div style="color: #94a3b8; font-size: 12px;">Dossiers générés</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 32px 0;">
+                <a href="http://localhost:8000/api/audit/{{ audit.pk }}/results/" 
+                   style="display: inline-block; background: linear-gradient(135deg, #FF9900, #E88B00); color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 16px;">
+                    Voir les résultats
+                </a>
+            </div>
+            
+            <p style="color: #94a3b8; font-size: 14px; margin-top: 32px;">
+                Pour récupérer cet argent, vous devrez télécharger les dossiers de réclamation et les soumettre à Amazon Seller Central.
+            </p>
+        </div>
+        
+        <div style="background: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #e2e8f0;">
+            <p style="color: #94a3b8; font-size: 12px; margin: 0;">
+                Amazon Audit SaaS - Récupérez votre argent perdu
+            </p>
+        </div>
+    </div>
+</body>
+</html>
